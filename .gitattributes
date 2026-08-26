@@ -1,0 +1,7 @@
+# Store everything with LF so the repo reads the same on Linux (Vercel builds
+# there) regardless of what Windows checks out locally.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff2 binary

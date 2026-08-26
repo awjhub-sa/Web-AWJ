@@ -1,0 +1,277 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Brand: taken from the AWJ logo (Frame 67) ───────────── */
+  --color-brand-400: #4ce3d1;
+  --color-brand-500: #30d9cb; /* teal end of the wordmark gradient */
+  --color-brand-600: #14c48a; /* green start of the wordmark gradient */
+  --color-brand-700: #0da372;
+  --color-brand-800: #08805a;
+
+  /* NSAB sub-brand (نِصاب) — taken from its own logo */
+  --color-nsab-navy: #183552;
+  --color-nsab-gold: #b2935c;
+
+  /* Charcoal — the logo lockup background */
+  --color-coal-700: #333333;
+  --color-coal-800: #252525;
+  --color-coal-900: #1a1a1a;
+  --color-coal-950: #101010;
+
+  /* Navy ink — used for type on light surfaces */
+  --color-ink-500: #5b6779;
+  --color-ink-700: #2c3d5e;
+  --color-ink-900: #142443;
+
+  /* Both carry a trace of the brand hue instead of being neutral greys, so
+     every light section sits in the identity rather than beside it. */
+  --color-line: #dfeae6;
+  --color-shell: #f2f9f6;
+
+  --font-sans: var(--font-tajawal), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 20px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+  }
+  body {
+    background: #ffffff;
+    color: var(--color-ink-900);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--color-brand-600);
+    color: #04120d;
+  }
+  /* Latin numerals read better than Arabic-Indic in a business context */
+  [dir="rtl"] {
+    font-variant-numeric: lining-nums;
+  }
+
+  /* The native <select> popup inherits the control's white text, which
+     vanishes against the OS popup background. Paint the options explicitly. */
+  select option {
+    background-color: var(--color-coal-900);
+    color: #ffffff;
+  }
+  select option:disabled {
+    color: rgba(255, 255, 255, 0.45);
+  }
+}
+
+@layer components {
+  .container-awj {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+
+  .gradient-text {
+    background-image: linear-gradient(
+      95deg,
+      var(--color-brand-600) 0%,
+      var(--color-brand-500) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .gradient-bg {
+    background-image: linear-gradient(
+      95deg,
+      var(--color-brand-600) 0%,
+      var(--color-brand-500) 100%
+    );
+  }
+
+  /* Thin gradient hairline used as a section divider */
+  .rule-gradient {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-brand-600),
+      var(--color-brand-500),
+      transparent
+    );
+  }
+}
+
+/* Stand-in for the hero photo (public/assets/hero-earth.jpg): a night-sky
+   wash so the section still reads as intended if the file is absent. */
+.hero-backdrop {
+  background:
+    radial-gradient(
+      120% 90% at 50% 118%,
+      rgba(20, 196, 138, 0.28) 0%,
+      rgba(20, 196, 138, 0) 55%
+    ),
+    radial-gradient(
+      80% 60% at 78% 8%,
+      rgba(48, 217, 203, 0.12) 0%,
+      rgba(48, 217, 203, 0) 60%
+    ),
+    linear-gradient(180deg, #05070a 0%, #0b1017 55%, #101010 100%);
+}
+
+/* ── Scroll reveal ───────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Marquee for the client strip */
+@keyframes awj-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: awj-marquee 32s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* ── Focus ring ──────────────────────────────────────────── */
+/* Unlayered on purpose: it must beat Tailwind's `outline-none` on the form
+   fields. brand-700 is the one brand tone that clears 3:1 against both the
+   white sections and the charcoal ones, so a single ring works everywhere. */
+:focus-visible {
+  outline: 3px solid var(--color-brand-700);
+  outline-offset: 2px;
+}
+
+/* ── Accessibility toolbar (npm: accessibility) ──────────── */
+/* The library styles itself entirely through these variables, so the widget
+   is themed here rather than by overriding its selectors. */
+:root {
+  --_access-icon-width: 52px;
+  --_access-icon-height: 52px;
+  --_access-icon-bottom: 24px;
+  --_access-icon-right: 24px;
+  --_access-icon-font: 28px / 52px "Material Icons";
+  --_access-icon-bg: linear-gradient(
+    95deg,
+    var(--color-brand-600) 0%,
+    var(--color-brand-500) 100%
+  );
+  --_access-icon-color: var(--color-coal-950);
+  --_access-icon-border-radius: 999px;
+  --_access-icon-z-index: 60; /* under the mobile nav sheet (z-50 header) */
+
+  --_access-menu-font-family: var(--font-tajawal), ui-sans-serif, sans-serif;
+  --_access-menu-background-color: #ffffff;
+  --_access-menu-color: var(--color-ink-900);
+  --_access-menu-border: solid 1px var(--color-line);
+  --_access-menu-border-radius: 18px;
+  --_access-menu-box-shadow: 0 18px 50px rgba(20, 36, 67, 0.18);
+  --_access-menu-bottom: 24px;
+  --_access-menu-right: 24px;
+  --_access-menu-min-width: 320px;
+
+  --_access-menu-header-color: var(--color-ink-900);
+  --_access-menu-header-font-size: 19px;
+  --_access-menu-header-font-weight: 700;
+
+  --_access-menu-item-color: var(--color-ink-700);
+  --_access-menu-item-font-size: 15px;
+  --_access-menu-item-icon-color: var(--color-ink-500);
+  --_access-menu-item-button-border-radius: 12px;
+  --_access-menu-item-button-hover-background-color: var(--color-shell);
+  --_access-menu-item-button-hover-color: var(--color-ink-900);
+  --_access-menu-item-hover-icon-color: var(--color-brand-700);
+  --_access-menu-item-button-active-background-color: var(--color-brand-700);
+  --_access-menu-item-button-active-color: #ffffff;
+  --_access-menu-item-active-icon-color: #ffffff;
+  --_access-menu-div-active-background-color: var(--color-brand-700);
+  --_access-menu-div-active-color: #ffffff;
+
+  --_access-scrollbar-thumb-background-color: var(--color-brand-600);
+}
+
+/* The floating button must stay clear of the mobile nav sheet when it drops. */
+@media (max-width: 640px) {
+  :root {
+    --_access-icon-width: 46px;
+    --_access-icon-height: 46px;
+    --_access-icon-font: 24px / 46px "Material Icons";
+    --_access-icon-bottom: 16px;
+    --_access-icon-right: 16px;
+    --_access-menu-min-width: min(320px, calc(100vw - 32px));
+    --_access-menu-bottom: 16px;
+    --_access-menu-right: 16px;
+  }
+}
+
+/* ── Brand-tinted chrome ─────────────────────────────────── */
+/* The scrollbar and the overscroll gutter are the two surfaces that stay
+   visible on every section, so leaving them default grey undoes the palette
+   everywhere else. Firefox takes the two-value form; WebKit needs the
+   pseudo-elements. */
+html {
+  scrollbar-color: var(--color-brand-600) var(--color-shell);
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-shell);
+}
+::-webkit-scrollbar-thumb {
+  border: 2px solid var(--color-shell);
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    var(--color-brand-600),
+    var(--color-brand-500)
+  );
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-700);
+}
+
+/* A hairline of the brand gradient wherever a dark band meets a light one. */
+.edge-gradient::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 3px;
+  background-image: linear-gradient(
+    95deg,
+    var(--color-brand-600) 0%,
+    var(--color-brand-500) 100%
+  );
+}
