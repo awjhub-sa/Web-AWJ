@@ -1,14 +1,15 @@
 import Image from "next/image";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import { projects } from "@/lib/content";
+import { getContent, type Locale } from "@/lib/content";
 import { IconArrow, IconCheck } from "./Icons";
 
 /**
  * Our own products. NSAB is one project of AWJ HUB — presented as a case,
  * not as the company's identity.
  */
-export default function Projects() {
+export default function Projects({ locale }: { locale: Locale }) {
+  const t = getContent(locale).projects;
   return (
     <section
       id="projects"
@@ -21,17 +22,17 @@ export default function Projects() {
 
       <div className="container-awj relative">
         <SectionHeading
-          eyebrow="مشاريعنا"
+          eyebrow={t.eyebrow}
           tone="dark"
           title={
             <>
-              أنظمة بنيناها،{" "}
-              <span className="gradient-text">وتعمل اليوم فعلًا</span>
+              {t.titleLead}{" "}
+              <span className="gradient-text">{t.titleHighlight}</span>
             </>
           }
         />
 
-        {projects.map((project) => (
+        {t.items.map((project) => (
           <div
             key={project.id}
             className="mt-14 grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16"
@@ -62,8 +63,7 @@ export default function Projects() {
                 <span className="text-white/50">{project.subtitle}</span>
               </h3>
               <p className="mt-4 max-w-xl text-[16px] leading-[1.9] text-white/55">
-                منصة تخدم شركات الحج خلال الموسم عبر أتمتة إعاشة الحجاج في
-                المخيمات، وتمكّنهم من:
+                {project.lead}
               </p>
 
               <ul className="mt-7 grid gap-3.5 sm:grid-cols-2">
@@ -83,8 +83,8 @@ export default function Projects() {
                 href="#contact"
                 className="group mt-9 inline-flex items-center gap-2 rounded-full border border-brand-600/40 bg-brand-600/10 px-6 py-3 font-semibold text-brand-400 transition-colors hover:bg-brand-600/20"
               >
-                اطلب عرضًا لمشروع مشابه
-                <IconArrow className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
+                {t.cta}
+                <IconArrow className="h-5 w-5 transition-transform group-hover:-translate-x-1 ltr:group-hover:translate-x-1" />
               </a>
             </Reveal>
           </div>

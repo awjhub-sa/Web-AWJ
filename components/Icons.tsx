@@ -22,14 +22,15 @@ export function IconBuild(p: IconProps) {
   );
 }
 
-export function IconOperate(p: IconProps) {
-  // Dial + trend: running the system and watching its performance
+export function IconWeb(p: IconProps) {
+  // Browser window + phone: the two screens the work ships on
   return (
     <svg {...base} {...p}>
-      <path d="M4 18a8 8 0 1 1 16 0" />
-      <path d="m12 18 4.5-5" />
-      <circle cx="12" cy="18" r="1.4" />
-      <path d="M2.5 18h2M19.5 18h2" />
+      <rect x="2.5" y="4.5" width="12" height="9.5" rx="2" />
+      <path d="M2.5 8h12" />
+      <path d="M8.5 14v4.5M5.75 18.5h5.5" />
+      <rect x="16.5" y="9" width="5" height="10.5" rx="1.6" />
+      <path d="M18.4 17.2h1.2" />
     </svg>
   );
 }
@@ -54,10 +55,16 @@ export function IconCheck(p: IconProps) {
   );
 }
 
-export function IconArrow(p: IconProps) {
-  // Points right-to-left, matching the RTL reading direction.
+export function IconArrow({ className = "", ...p }: IconProps) {
+  // Drawn pointing right-to-left for the Arabic page; `ltr:-scale-x-100` flips
+  // it on the English one. Tailwind v4 writes scale and translate to separate
+  // CSS properties, so the hover nudge at the call site still composes.
   return (
-    <svg {...base} {...p}>
+    <svg
+      {...base}
+      className={`ltr:-scale-x-100 ${className}`.trim()}
+      {...p}
+    >
       <path d="M19 12H5" />
       <path d="m11 6-6 6 6 6" />
     </svg>
@@ -94,7 +101,7 @@ export function IconAt(p: IconProps) {
 
 export const serviceIcons = {
   build: IconBuild,
-  operate: IconOperate,
+  web: IconWeb,
   support: IconSupport,
 } as const;
 

@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Reveal from "./Reveal";
-import { pillars, site } from "@/lib/content";
+import { getContent, site, type Locale } from "@/lib/content";
 import { IconArrow } from "./Icons";
 
-export default function Hero() {
+export default function Hero({ locale }: { locale: Locale }) {
+  const content = getContent(locale);
+  const t = content.hero;
   return (
     <section
       id="home"
@@ -30,7 +32,7 @@ export default function Hero() {
       />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-gradient-to-l from-coal-950/80 via-coal-950/25 to-transparent"
+        className="absolute inset-0 -z-10 bg-gradient-to-l from-coal-950/80 via-coal-950/25 to-transparent ltr:bg-gradient-to-r"
       />
 
       <div className="container-awj relative grid items-center gap-14 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
@@ -38,7 +40,7 @@ export default function Hero() {
           <Reveal>
             <span className="inline-flex items-center gap-2 rounded-full border border-brand-600/30 bg-brand-600/10 px-4 py-1.5 text-[13px] font-medium text-brand-400 backdrop-blur-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
-              البيت التقني لحلول الأعمال
+              {t.badge}
             </span>
           </Reveal>
 
@@ -46,16 +48,16 @@ export default function Hero() {
             {/* Stays a clear step above the section headings at every width:
                 40/32 on phones, 50/44 on tablets, 58/52 on desktop. */}
             <h1 className="mt-6 text-[40px] font-bold leading-[1.22] text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)] sm:text-[50px] lg:text-[58px] lg:leading-[1.18]">
-              من التعقيد
+              {t.titleTop}
               <br />
-              إلى <span className="gradient-text">البساطة</span>
+              {t.titleBottomLead}{" "}
+              <span className="gradient-text">{t.titleBottomHighlight}</span>
             </h1>
           </Reveal>
 
           <Reveal delay={160}>
             <p className="mt-6 max-w-xl text-lg leading-[1.9] text-white/70 drop-shadow-[0_1px_10px_rgba(0,0,0,0.6)]">
-              نحوّل العمليات المعقّدة إلى أنظمة واضحة قابلة للقياس والمساءلة.
-              نصمّم الحل الرقمي، ونشغّله، ونبقى معك بعد التسليم.
+              {t.lead}
             </p>
           </Reveal>
 
@@ -65,14 +67,14 @@ export default function Hero() {
                 href="#contact"
                 className="group inline-flex items-center gap-2 rounded-full gradient-bg px-7 py-3.5 font-semibold text-coal-950 transition-transform hover:scale-[1.03] active:scale-95"
               >
-                ابدأ مشروعك
-                <IconArrow className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
+                {t.ctaPrimary}
+                <IconArrow className="h-5 w-5 transition-transform group-hover:-translate-x-1 ltr:group-hover:translate-x-1" />
               </a>
               <a
                 href="#projects"
                 className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 py-3.5 font-semibold text-white backdrop-blur-sm transition-colors hover:border-white/50 hover:bg-white/10"
               >
-                شاهد مشاريعنا
+                {t.ctaSecondary}
               </a>
             </div>
           </Reveal>
@@ -86,8 +88,8 @@ export default function Hero() {
             />
             <div className="rounded-[32px] border border-white/12 bg-coal-950/45 p-10 backdrop-blur-md">
               <Image
-                src="/assets/awj-ar-light.svg"
-                alt={site.nameAr}
+                src={content.logo}
+                alt={locale === "en" ? site.nameEn : site.nameAr}
                 width={144}
                 height={180}
                 priority
@@ -109,7 +111,7 @@ export default function Hero() {
       {/* The three service lines, stated plainly */}
       <div className="relative border-t border-brand-600/25 bg-coal-950/80 backdrop-blur-md">
         <ul className="container-awj grid gap-y-6 py-8 sm:grid-cols-3">
-          {pillars.map((pillar, i) => (
+          {content.pillars.map((pillar, i) => (
             <Reveal
               as="li"
               key={pillar}

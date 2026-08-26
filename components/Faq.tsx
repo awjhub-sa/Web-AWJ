@@ -3,22 +3,23 @@
 import { useState } from "react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import { faqs } from "@/lib/content";
+import { getContent, type Locale } from "@/lib/content";
 
-export default function Faq() {
+export default function Faq({ locale }: { locale: Locale }) {
+  const t = getContent(locale).faq;
   const [open, setOpen] = useState<number | null>(0);
 
   return (
     <section className="bg-white py-24 sm:py-28">
       <div className="container-awj grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
         <SectionHeading
-          eyebrow="أسئلة متكررة"
-          title="ما يسأل عنه العملاء عادة"
-          body="لم تجد سؤالك؟ اكتب لنا وسنرد خلال يوم عمل واحد."
+          eyebrow={t.eyebrow}
+          title={t.title}
+          body={t.body}
         />
 
         <ul className="divide-y divide-line border-y-2 border-brand-600/20">
-          {faqs.map((item, i) => {
+          {t.items.map((item, i) => {
             const expanded = open === i;
             return (
               <Reveal as="li" key={item.q} delay={i * 70}>
@@ -29,7 +30,7 @@ export default function Faq() {
                     aria-expanded={expanded}
                     aria-controls={`faq-panel-${i}`}
                     id={`faq-button-${i}`}
-                    className="flex w-full items-center justify-between gap-6 py-5 text-right"
+                    className="flex w-full items-center justify-between gap-6 py-5 text-start"
                   >
                     <span
                       className={`text-[17px] font-semibold transition-colors ${
@@ -71,7 +72,7 @@ export default function Faq() {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="pb-6 pl-12 text-[15px] leading-[1.9] text-ink-500">
+                    <p className="pb-6 pe-12 text-[15px] leading-[1.9] text-ink-500">
                       {item.a}
                     </p>
                   </div>

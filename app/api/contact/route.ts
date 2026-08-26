@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { site } from "@/lib/content";
+import { isLocale, site } from "@/lib/content";
 
 /**
  * Receives the contact form and emails it to the company inbox.
@@ -22,9 +22,12 @@ const MAX = 5000;
 type Payload = {
   name?: string;
   company?: string;
-  contact?: string;
+  email?: string;
+  phone?: string;
   service?: string;
   message?: string;
+  /** Which face of the site they wrote from — so you reply in their language. */
+  locale?: string;
   /** Honeypot: a real person never sees this field, so anything in it is a bot. */
   website?: string;
 };
@@ -55,12 +58,16 @@ export async function POST(request: Request) {
   }
 
   const name = clean(body.name);
-  const contact = clean(body.contact);
+  const email = clean(body.email);
+  const phone = clean(body.phone);
   const company = clean(body.company);
   const service = clean(body.service);
   const message = clean(body.message);
+  const locale = isLocale(clean(body.locale)) ? clean(body.locale) : "ar";
 
-  if (!name || !contact) {
+  // Either channel is enough to answer them — the form only marks email as
+  // required, but a phone-only submission must not be thrown away.
+  if (!name || (!email && !phone)) {
     return NextResponse.json({ error: "missing_fields" }, { status: 422 });
   }
 
@@ -70,11 +77,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "not_configured" }, { status: 501 });
   }
 
-  const rows: Array<[string, string]> = [
+  // `ltr` on the value keeps an address or a `+966…` number from being
+  // reordered by the surrounding RTL paragraph.
+  const rows: Array<[string, string, "ltr"?]> = [
     ["الاسم", name],
     ["الجهة", company || "—"],
-    ["وسيلة التواصل", contact],
+    ["البريد الإلكتروني", email || "—", "ltr"],
+    ["رقم الجوال", phone || "—", "ltr"],
     ["الخدمة", service || "—"],
+    ["لغة الزائر", locale === "en" ? "الإنجليزية" : "العربية"],
   ];
 
   const html = `<div dir="rtl" style="font-family:system-ui,sans-serif;line-height:1.9">
@@ -82,10 +93,10 @@ export async function POST(request: Request) {
   <table cellpadding="6" style="border-collapse:collapse">
     ${rows
       .map(
-        ([label, value]) =>
-          `<tr><td style="color:#5b6779">${label}</td><td><strong>${escapeHtml(
-            value,
-          )}</strong></td></tr>`,
+        ([label, value, dir]) =>
+          `<tr><td style="color:#5b6779">${label}</td><td${
+            dir ? ` dir="${dir}" align="right"` : ""
+          }><strong>${escapeHtml(value)}</strong></td></tr>`,
       )
       .join("")}
   </table>
@@ -104,7 +115,7 @@ export async function POST(request: Request) {
       subject: `طلب مشروع — ${company || name}`,
       html,
       // Lets you hit reply and reach the sender when they left an address.
-      ...(contact.includes("@") ? { reply_to: contact } : {}),
+      ...(email.includes("@") ? { reply_to: email } : {}),
     }),
   });
 

@@ -1,10 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { nav, site } from "@/lib/content";
+import { getContent, localePath, site, type Locale } from "@/lib/content";
 
-export default function Header() {
+export default function Header({ locale }: { locale: Locale }) {
+  const content = getContent(locale);
+  const t = content.header;
+  const nav = content.nav;
+  const other = content.alternate;
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("#home");
@@ -28,10 +33,15 @@ export default function Header() {
   }, []);
 
   // Highlight the nav item whose section currently owns the viewport.
+  // `nav` is rebuilt every render, so the effect keys off the hrefs themselves
+  // rather than the array identity — otherwise the observer would be torn down
+  // and rebuilt on every scroll tick.
+  const navHrefs = nav.map((item) => item.href).join(",");
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return;
-    const sections = nav
-      .map((n) => document.querySelector(n.href))
+    const sections = navHrefs
+      .split(",")
+      .map((href) => document.querySelector(href))
       .filter((el): el is Element => Boolean(el));
     const observer = new IntersectionObserver(
       (entries) => {
@@ -44,7 +54,7 @@ export default function Header() {
     );
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, []);
+  }, [navHrefs]);
 
   // Lock body scroll while the mobile sheet is open.
   useEffect(() => {
@@ -66,11 +76,11 @@ export default function Header() {
         <a
           href="#home"
           className="flex shrink-0 items-center"
-          aria-label={`${site.nameAr} — الصفحة الرئيسية`}
+          aria-label={t.homeAria}
         >
           <Image
-            src="/assets/awj-ar-light.svg"
-            alt={site.nameAr}
+            src={content.logo}
+            alt={locale === "en" ? site.nameEn : site.nameAr}
             width={144}
             height={180}
             priority
@@ -81,7 +91,10 @@ export default function Header() {
           />
         </a>
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="رئيسية">
+        <nav
+          className="hidden items-center gap-1 lg:flex"
+          aria-label={t.mainNavAria}
+        >
           {nav.map((item) => (
             <a
               key={item.href}
@@ -99,11 +112,24 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          {/* The other language, always one tap away. `lang`/`hreflang` tell
+              assistive tech and crawlers what sits behind the link, so the
+              label reads in its own language rather than the page's. */}
+          <Link
+            href={localePath[other.locale]}
+            lang={other.locale}
+            hrefLang={other.locale}
+            aria-label={other.aria}
+            className="rounded-full border border-white/20 px-3.5 py-2 text-[14px] font-semibold text-white/80 transition-colors hover:border-brand-500/60 hover:text-brand-400"
+          >
+            {other.label}
+          </Link>
+
           <a
             href="#contact"
             className="hidden rounded-full gradient-bg px-5 py-2.5 text-[15px] font-semibold text-coal-950 transition-transform hover:scale-[1.03] active:scale-95 sm:inline-block"
           >
-            ابدأ مشروعك
+            {t.startProject}
           </a>
 
           <button
@@ -111,7 +137,7 @@ export default function Header() {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="mobile-nav"
-            aria-label={open ? "إغلاق القائمة" : "فتح القائمة"}
+            aria-label={open ? t.closeMenu : t.openMenu}
             className="grid h-10 w-10 place-items-center rounded-xl border border-white/15 text-white lg:hidden"
           >
             <span className="relative block h-4 w-5">
@@ -138,12 +164,12 @@ export default function Header() {
       {/* Reading progress. Grows from the right because the page is RTL. */}
       <div
         aria-hidden
-        className={`h-[2px] w-full origin-right transition-opacity duration-300 ${
+        className={`h-[2px] w-full origin-right ltr:origin-left transition-opacity duration-300 ${
           scrolled ? "opacity-100" : "opacity-0"
         }`}
       >
         <div
-          className="gradient-bg h-full origin-right"
+          className="gradient-bg h-full origin-right ltr:origin-left"
           style={{ transform: `scaleX(${progress})` }}
         />
       </div>
@@ -158,7 +184,10 @@ export default function Header() {
           open ? "max-h-[520px]" : "max-h-0"
         }`}
       >
-        <nav className="container-awj flex flex-col py-3" aria-label="جوال">
+        <nav
+          className="container-awj flex flex-col py-3"
+          aria-label={t.mobileNavAria}
+        >
           {nav.map((item) => (
             <a
               key={item.href}
@@ -174,7 +203,7 @@ export default function Header() {
             onClick={() => setOpen(false)}
             className="mt-4 mb-2 rounded-full gradient-bg px-5 py-3 text-center font-semibold text-coal-950"
           >
-            ابدأ مشروعك
+            {t.startProject}
           </a>
         </nav>
       </div>

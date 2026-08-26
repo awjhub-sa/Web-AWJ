@@ -1,25 +1,30 @@
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import DeliveryRange from "./DeliveryRange";
-import { delivery, process } from "@/lib/content";
+import { getContent, type Locale } from "@/lib/content";
 
-export default function Process() {
+export default function Process({ locale }: { locale: Locale }) {
+  const content = getContent(locale);
+  const t = content.process;
   return (
     <section id="process" className="bg-white py-24 sm:py-28">
       <div className="container-awj">
         <SectionHeading
-          eyebrow="كيف نعمل"
-          title="من أول جلسة إلى نظام يعمل"
+          eyebrow={t.eyebrow}
+          title={t.title}
           align="center"
         />
 
         {/* The delivery window, stated once and clearly */}
         <Reveal delay={120}>
-          <div className="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-3 rounded-card border border-brand-600/25 bg-brand-600/[0.06] px-6 py-6 text-center sm:flex-row sm:justify-center sm:gap-5 sm:text-right">
-            <DeliveryRange className="text-3xl font-bold gradient-text sm:text-4xl" />
+          <div className="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-3 rounded-card border border-brand-600/25 bg-brand-600/[0.06] px-6 py-6 text-center sm:flex-row sm:justify-center sm:gap-5 sm:text-start">
+            <DeliveryRange
+              locale={locale}
+              className="text-3xl font-bold gradient-text sm:text-4xl"
+            />
             <span className="hidden h-10 w-px bg-brand-600/25 sm:block" />
             <span className="max-w-xs text-[15px] leading-[1.8] text-ink-500">
-              مدة تنفيذ الموقع أو التطبيق. {delivery.note}
+              {t.deliveryLabel} {content.delivery.note}
             </span>
           </div>
         </Reveal>
@@ -32,7 +37,7 @@ export default function Process() {
             aria-hidden
             className="absolute inset-x-0 top-7 hidden h-[2px] bg-gradient-to-l from-transparent via-brand-600/45 to-transparent md:block"
           />
-          {process.map((step, i) => (
+          {t.steps.map((step, i) => (
             <Reveal
               as="li"
               key={step.step}

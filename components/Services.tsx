@@ -1,21 +1,22 @@
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import { services } from "@/lib/content";
+import { getContent, type Locale } from "@/lib/content";
 import { IconCheck, serviceIcons } from "./Icons";
 
-export default function Services() {
+export default function Services({ locale }: { locale: Locale }) {
+  const t = getContent(locale).services;
   return (
     <section id="services" className="bg-shell py-24 sm:py-28">
       <div className="container-awj">
         <SectionHeading
-          eyebrow="خدماتنا"
-          title="ما نقدمه لك"
-          body="نصمّم الحل الرقمي، ونشغّله، ونبقى معك بعد التسليم."
+          eyebrow={t.eyebrow}
+          title={t.title}
+          body={t.body}
           align="center"
         />
 
         <ul className="mt-14 grid gap-5 md:grid-cols-3">
-          {services.map((service, i) => {
+          {t.items.map((service, i) => {
             const Icon = serviceIcons[service.icon];
             return (
               <Reveal as="li" key={service.id} delay={i * 100}>

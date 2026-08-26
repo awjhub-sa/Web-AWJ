@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { nav, projects, services, site } from "@/lib/content";
+import { getContent, site, type Locale } from "@/lib/content";
 import {
   IconInstagram,
   IconLinkedIn,
@@ -10,7 +10,9 @@ import {
 /** Shown inside the Linktree button as a hint of what is behind it. */
 const platforms = [IconX, IconLinkedIn, IconInstagram];
 
-export default function Footer() {
+export default function Footer({ locale }: { locale: Locale }) {
+  const content = getContent(locale);
+  const t = content.footer;
   return (
     <footer className="edge-gradient relative overflow-hidden bg-coal-950 pt-16">
       <span
@@ -29,17 +31,16 @@ export default function Footer() {
               className="h-auto w-[260px] max-w-full"
             />
             <p className="mt-6 max-w-xs text-[15px] leading-[1.9] text-white/60">
-              {site.taglineAr} — نحوّل العمليات المعقّدة إلى أنظمة واضحة قابلة
-              للقياس والمساءلة.
+              {t.tagline}
             </p>
           </div>
 
           <nav aria-labelledby="f-nav">
             <h2 id="f-nav" className="text-sm font-semibold text-white">
-              روابط
+              {t.links}
             </h2>
             <ul className="mt-4 space-y-2.5">
-              {nav.map((item) => (
+              {content.nav.map((item) => (
                 <li key={item.href}>
                   <a
                     href={item.href}
@@ -53,9 +54,9 @@ export default function Footer() {
           </nav>
 
           <div>
-            <h2 className="text-sm font-semibold text-white">خدماتنا</h2>
+            <h2 className="text-sm font-semibold text-white">{t.services}</h2>
             <ul className="mt-4 space-y-2.5">
-              {services.map((service) => (
+              {content.services.items.map((service) => (
                 <li key={service.id}>
                   <a
                     href="#services"
@@ -67,9 +68,11 @@ export default function Footer() {
               ))}
             </ul>
 
-            <h2 className="mt-7 text-sm font-semibold text-white">مشاريعنا</h2>
+            <h2 className="mt-7 text-sm font-semibold text-white">
+              {t.projects}
+            </h2>
             <ul className="mt-4 space-y-2.5">
-              {projects.map((project) => (
+              {content.projects.items.map((project) => (
                 <li key={project.id}>
                   <a
                     href="#projects"
@@ -83,7 +86,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h2 className="text-sm font-semibold text-white">تواصل</h2>
+            <h2 className="text-sm font-semibold text-white">{t.contact}</h2>
             <ul className="mt-4 space-y-2.5 text-[15px] text-white/55">
               <li>
                 <a
@@ -126,7 +129,7 @@ export default function Footer() {
               className="group mt-6 inline-flex items-center gap-3 rounded-full border border-white/12 bg-white/[0.04] px-4 py-2.5 text-[14px] font-semibold text-white/75 transition-colors hover:border-brand-600/50 hover:bg-brand-600/10 hover:text-white"
             >
               <IconLinktree className="h-4 w-4 shrink-0 text-brand-400" />
-              كل حساباتنا
+              {t.allAccounts}
               <span
                 aria-hidden
                 className="flex items-center gap-2 border-s border-white/12 ps-3 text-white/40 transition-colors group-hover:text-brand-400"
@@ -141,7 +144,8 @@ export default function Footer() {
 
         <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-[13px] text-white/60 sm:flex-row">
           <p>
-            © {new Date().getFullYear()} {site.nameAr}. جميع الحقوق محفوظة.
+            © {new Date().getFullYear()}{" "}
+            {locale === "en" ? site.nameEn : site.nameAr}. {t.rights}
           </p>
           <p dir="ltr">
             {site.nameEn} — {site.taglineEn}

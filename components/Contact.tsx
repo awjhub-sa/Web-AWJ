@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import { delivery, services, site } from "@/lib/content";
+import { getContent, site, type Locale } from "@/lib/content";
 import { IconArrow, IconAt, IconGlobe, IconMail } from "./Icons";
 
 const fieldClass =
@@ -11,14 +11,20 @@ const fieldClass =
 
 type Status = "idle" | "sending" | "sent" | "handoff" | "error";
 
-const STATUS_TEXT: Record<Exclude<Status, "idle">, string> = {
-  sending: "جارٍ الإرسال…",
-  sent: "وصلنا طلبك — نعود إليك خلال يوم عمل واحد.",
-  handoff: "تم تجهيز رسالتك — أكمل الإرسال من برنامج البريد لديك.",
-  error: "تعذّر الإرسال. جرّب مرة أخرى أو راسلنا مباشرة على البريد أعلاه.",
+type Payload = {
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  service: string;
+  message: string;
+  locale: Locale;
+  website?: string;
 };
 
-export default function Contact() {
+export default function Contact({ locale }: { locale: Locale }) {
+  const content = getContent(locale);
+  const t = content.contact;
   const [status, setStatus] = useState<Status>("idle");
 
   /**
@@ -33,12 +39,14 @@ export default function Contact() {
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
-    const payload = {
+    const payload: Payload = {
       name: String(data.get("name") ?? ""),
       company: String(data.get("company") ?? ""),
-      contact: String(data.get("contact") ?? ""),
+      email: String(data.get("email") ?? ""),
+      phone: String(data.get("phone") ?? ""),
       service: String(data.get("service") ?? ""),
       message: String(data.get("message") ?? ""),
+      locale,
       website: String(data.get("website") ?? ""),
     };
 
@@ -68,24 +76,19 @@ export default function Contact() {
     }
   }
 
-  function openMailClient(p: {
-    name: string;
-    company: string;
-    contact: string;
-    service: string;
-    message: string;
-  }) {
+  function openMailClient(p: Payload) {
     const body = [
-      `الاسم: ${p.name}`,
-      `الجهة: ${p.company}`,
-      `وسيلة التواصل: ${p.contact}`,
-      `الخدمة: ${p.service}`,
+      `${t.mail.name}: ${p.name}`,
+      `${t.mail.company}: ${p.company}`,
+      `${t.mail.email}: ${p.email}`,
+      `${t.mail.phone}: ${p.phone}`,
+      `${t.mail.service}: ${p.service}`,
       "",
       p.message,
     ].join("\n");
 
     window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(
-      `طلب مشروع — ${p.company || p.name}`,
+      `${t.mail.subject} — ${p.company || p.name}`,
     )}&body=${encodeURIComponent(body)}`;
   }
 
@@ -108,16 +111,16 @@ export default function Contact() {
       <div className="container-awj relative grid gap-14 lg:grid-cols-[0.85fr_1.15fr]">
         <div>
           <SectionHeading
-            eyebrow="تواصل معنا"
+            eyebrow={t.eyebrow}
             tone="dark"
             title={
               <>
-                احكِ لنا عن
+                {t.titleLead}
                 <br />
-                <span className="gradient-text">العملية التي تُتعبك</span>
+                <span className="gradient-text">{t.titleHighlight}</span>
               </>
             }
-            body={`أرسل تفاصيل احتياجك وسنعود إليك بنطاق عمل مبدئي وتقدير للمدة والتكلفة. التنفيذ عادة بين ${delivery.min} و${delivery.max} ${delivery.unit}.`}
+            body={t.body}
           />
 
           <ul className="mt-9 space-y-4">
@@ -151,65 +154,81 @@ export default function Contact() {
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
                 <span className="mb-2 block text-sm text-white/60">
-                  الاسم <span className="text-brand-500">*</span>
+                  {t.name} <span className="text-brand-500">*</span>
                 </span>
                 <input
                   name="name"
                   required
                   autoComplete="name"
-                  placeholder="اسمك الكامل"
+                  placeholder={t.namePlaceholder}
                   className={fieldClass}
                 />
               </label>
               <label className="block">
                 <span className="mb-2 block text-sm text-white/60">
-                  الجهة / الشركة
+                  {t.company}
                 </span>
                 <input
                   name="company"
                   autoComplete="organization"
-                  placeholder="اسم المنشأة (اختياري)"
+                  placeholder={t.companyPlaceholder}
                   className={fieldClass}
                 />
               </label>
               <label className="block">
                 <span className="mb-2 block text-sm text-white/60">
-                  بريد أو جوال للتواصل{" "}
-                  <span className="text-brand-500">*</span>
+                  {t.email} <span className="text-brand-500">*</span>
                 </span>
+                {/* dir="ltr" keeps the address itself readable; the alignment
+                    follows the page so the field does not look detached. */}
                 <input
-                  name="contact"
+                  name="email"
+                  type="email"
                   required
                   dir="ltr"
                   autoComplete="email"
                   placeholder="you@example.com"
-                  className={`${fieldClass} text-right`}
+                  className={`${fieldClass} text-right ltr:text-left`}
                 />
               </label>
               <label className="block">
                 <span className="mb-2 block text-sm text-white/60">
-                  الخدمة المطلوبة
+                  {t.phone}
+                </span>
+                <input
+                  name="phone"
+                  type="tel"
+                  dir="ltr"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  placeholder={t.phonePlaceholder}
+                  className={`${fieldClass} text-right ltr:text-left`}
+                />
+              </label>
+              <label className="block sm:col-span-2">
+                <span className="mb-2 block text-sm text-white/60">
+                  {t.service}
                 </span>
                 <select name="service" className={fieldClass} defaultValue="">
                   <option value="" disabled>
-                    اختر الخدمة
+                    {t.servicePlaceholder}
                   </option>
-                  {services.map((service) => (
+                  {content.services.items.map((service) => (
                     <option key={service.id}>{service.title}</option>
                   ))}
-                  <option>غير محدد بعد</option>
+                  <option>{t.serviceOther}</option>
                 </select>
               </label>
             </div>
 
             <label className="mt-4 block">
               <span className="mb-2 block text-sm text-white/60">
-                تفاصيل الاحتياج
+                {t.message}
               </span>
               <textarea
                 name="message"
                 rows={4}
-                placeholder="ما العملية التي تريد أتمتتها؟ من يستخدمها؟ وما الموعد المستهدف؟"
+                placeholder={t.messagePlaceholder}
                 className={`${fieldClass} resize-y`}
               />
             </label>
@@ -217,7 +236,7 @@ export default function Contact() {
             {/* Honeypot — hidden from people, irresistible to bots. */}
             <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
               <label>
-                الموقع الإلكتروني
+                website
                 <input name="website" tabIndex={-1} autoComplete="off" />
               </label>
             </div>
@@ -227,8 +246,8 @@ export default function Contact() {
               disabled={status === "sending"}
               className="group mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full gradient-bg px-7 py-3.5 font-semibold text-coal-950 transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
             >
-              {status === "sending" ? "جارٍ الإرسال…" : "أرسل الطلب"}
-              <IconArrow className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
+              {status === "sending" ? t.status.sending : t.submit}
+              <IconArrow className="h-5 w-5 transition-transform group-hover:-translate-x-1 ltr:group-hover:translate-x-1" />
             </button>
 
             {/* The live region stays mounted so assistive tech is watching it,
@@ -240,7 +259,7 @@ export default function Contact() {
                 status === "error" ? "text-red-300" : "text-brand-400"
               }`}
             >
-              {status === "idle" ? "" : STATUS_TEXT[status]}
+              {status === "idle" ? "" : t.status[status]}
             </p>
           </form>
         </Reveal>
