@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "awj-website",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-08-26",
+  // nodejs_compat is required by the adapter. global_fetch_strictly_public makes
+  // the worker's own fetch() go out to the public internet, so a request to the
+  // site's own domain is not short-circuited back into this worker.
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "awj-website"
+    }
+  ],
+  // Backs next/image on Workers, where Next's own sharp-based optimizer cannot
+  // run. Cloudflare bills this as image transformations: 5,000 unique ones a
+  // month are free, and this site has one raster image in six widths.
+  "images": {
+    "binding": "IMAGES"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
