@@ -7,9 +7,14 @@ export default function Hero({ locale }: { locale: Locale }) {
   const content = getContent(locale);
   const t = content.hero;
   return (
+    // A column that fills the screen: the copy grows to take the slack and the
+    // service strip stays pinned to the bottom edge. Without the floor the hero
+    // was only as tall as its text, which reads as a short band on a desktop
+    // monitor. `svh` rather than `vh` so mobile browser chrome does not push
+    // the strip out of view on first paint.
     <section
       id="home"
-      className="relative isolate overflow-hidden bg-coal-950 pt-[72px]"
+      className="relative isolate flex min-h-[88svh] flex-col overflow-hidden bg-coal-950 pt-[72px] lg:min-h-svh"
     >
       {/* Earth at night — the hero backdrop. The gradient underneath is what
           shows if the photo is ever missing, so the hero never reads broken. */}
@@ -35,7 +40,7 @@ export default function Hero({ locale }: { locale: Locale }) {
         className="absolute inset-0 -z-10 bg-gradient-to-l from-coal-950/80 via-coal-950/25 to-transparent ltr:bg-gradient-to-r"
       />
 
-      <div className="container-awj relative grid items-center gap-14 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
+      <div className="container-awj relative grid flex-1 items-center gap-14 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
         <div>
           <Reveal>
             <span className="inline-flex items-center gap-2 rounded-full border border-brand-600/30 bg-brand-600/10 px-4 py-1.5 text-[13px] font-medium text-brand-400 backdrop-blur-sm">

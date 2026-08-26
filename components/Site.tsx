@@ -9,6 +9,7 @@ import Faq from "@/components/Faq";
 import CtaBand from "@/components/CtaBand";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import type { Locale } from "@/lib/content";
 
 /** The page itself. Both languages render the same sections in the same order. */
@@ -28,6 +29,7 @@ export default function Site({ locale }: { locale: Locale }) {
         <Contact locale={locale} />
       </main>
       <Footer locale={locale} />
+      <WhatsAppButton locale={locale} />
     </>
   );
 }

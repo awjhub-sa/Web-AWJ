@@ -31,6 +31,12 @@ export const site = {
   domain: "awjhub.com",
   email: "info@awjhub.com",
   handle: "@awjhub",
+  /**
+   * WhatsApp in the international form wa.me expects: country code, no `+`,
+   * no leading zero. Local 0567310842 → 966567310842.
+   */
+  whatsapp: "966567310842",
+  whatsappDisplay: "+966 56 731 0842",
   /** All social accounts live behind one link instead of three dead ones. */
   linktree: "https://linktr.ee/awjhub",
 };
@@ -168,6 +174,12 @@ export type Content = {
     contact: string;
     allAccounts: string;
     rights: string;
+  };
+  whatsapp: {
+    aria: string;
+    tooltip: string;
+    /** Pre-filled first message, so the visitor does not start from a blank chat. */
+    prefill: string;
   };
 };
 
@@ -449,6 +461,11 @@ const ar: Content = {
     allAccounts: "كل حساباتنا",
     rights: "جميع الحقوق محفوظة.",
   },
+  whatsapp: {
+    aria: "تواصل معنا عبر واتساب",
+    tooltip: "راسلنا على واتساب",
+    prefill: "السلام عليكم، تواصلت معكم من موقع أوج لحلول الأعمال.",
+  },
 };
 
 const en: Content = {
@@ -729,6 +746,11 @@ const en: Content = {
     contact: "Contact",
     allAccounts: "All our accounts",
     rights: "All rights reserved.",
+  },
+  whatsapp: {
+    aria: "Chat with us on WhatsApp",
+    tooltip: "Message us on WhatsApp",
+    prefill: "Hello, I found you through the AWJ HUB website.",
   },
 };
 
