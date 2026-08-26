@@ -150,22 +150,34 @@ public/assets/      الشعارات الرسمية (SVG) وصورة المشا�
 ## ما يحتاج تعديلًا قبل النشر
 
 - إضافة مشاريع جديدة إلى مصفوفة `projects` في `lib/content.ts`
-- نموذج التواصل في [components/Contact.tsx](components/Contact.tsx) لا يملك خادمًا؛
-  يفتح برنامج البريد لدى الزائر بالرسالة جاهزة. لربطه بخدمة فعلية استبدل
-  `handleSubmit` بطلب `POST` إلى `app/api/contact/route.ts` أو خدمة خارجية.
+- ضبط أسرار ZeptoMail على الـ Worker حتى يرسل النموذج فعليًا (انظر أدناه)
 
 ## نموذج التواصل
 
 النموذج يرسل إلى [app/api/contact](app/api/contact/route.ts)، والمسار يبعث
-الطلب بريدًا إلى `info@awjhub.com` عبر واجهة Resend (`fetch` مباشرة — بلا حزمة
-إضافية). للتفعيل انسخ [.env.example](.env.example) إلى `.env.local` أو أضف
-القيم في إعدادات Vercel:
+الطلب بريدًا إلى `info@awjhub.com` — وهو صندوق Zoho — عبر **ZeptoMail**،
+منتج البريد التلقائي من Zoho، بطلب `fetch` مباشر بلا حزمة إضافية.
+
+**لماذا ZeptoMail وليس SMTP الخاص بـ Zoho Mail:** الموقع يعمل على Cloudflare
+Workers، وهي لا تفتح اتصال SMTP صادرًا إطلاقًا (المنفذ 25 محجوب)، فـ
+`smtp.zoho.com` غير قابل للوصول من هنا مهما كانت بيانات الاعتماد. الواجهة
+الـ REST هي الطريق الوحيد.
+
+للتفعيل على الإنتاج تُضاف القيم كأسرار مشفّرة على الـ Worker:
+
+```bash
+npx wrangler secret put ZEPTOMAIL_TOKEN
+npx wrangler secret put CONTACT_FROM
+```
 
 | المتغيّر | الغرض |
 | --- | --- |
-| `RESEND_API_KEY` | المفتاح من resend.com |
-| `CONTACT_FROM` | المُرسِل، على نطاق موثّق داخل Resend |
+| `ZEPTOMAIL_TOKEN` | رمز Send Mail من وكيل البريد في zeptomail.com |
+| `CONTACT_FROM` | المُرسِل، على نطاق موثّق داخل ZeptoMail |
 | `CONTACT_TO` | صندوق الاستقبال (افتراضيًا `site.email`) |
+| `ZEPTOMAIL_HOST` | المضيف الإقليمي — فارغًا يعني `api.zeptomail.com` |
+
+للتطوير المحلي انسخ [.env.example](.env.example) إلى `.env.local`.
 
 **بدون المفاتيح لا ينكسر شيء:** المسار يرد `501`، فيرجع النموذج إلى فتح برنامج
 البريد لدى الزائر — وهو سلوكه قبل وجود المسار. وكذلك عند انقطاع الشبكة، فلا
