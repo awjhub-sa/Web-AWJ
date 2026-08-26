@@ -84,6 +84,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "not_configured" }, { status: 501 });
   }
 
+  // ZeptoMail's dashboard copies the token with the `Zoho-enczapikey ` prefix
+  // already on it, and the header below adds the same prefix — pasting it
+  // verbatim would send it twice. Accept the token with or without it.
+  const key = token.replace(/^Zoho-enczapikey\s+/i, "").trim();
+
   // `ltr` on the value keeps an address or a `+966…` number from being
   // reordered by the surrounding RTL paragraph.
   const rows: Array<[string, string, "ltr"?]> = [
@@ -114,7 +119,7 @@ export async function POST(request: Request) {
     method: "POST",
     headers: {
       // ZeptoMail's own scheme, not Bearer — the prefix is part of the value.
-      Authorization: `Zoho-enczapikey ${token}`,
+      Authorization: `Zoho-enczapikey ${key}`,
       "Content-Type": "application/json",
       Accept: "application/json",
     },
