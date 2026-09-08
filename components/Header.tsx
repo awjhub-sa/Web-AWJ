@@ -5,11 +5,34 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getContent, localePath, site, type Locale } from "@/lib/content";
 
-export default function Header({ locale }: { locale: Locale }) {
+export default function Header({
+  locale,
+  /**
+   * Set on pages that are not the home page. Two things change: the bar keeps
+   * its navy fill from the first pixel — over a white page the transparent
+   * state would paint a white wordmark and white links onto white — and the
+   * section links are prefixed with the home path, since `#services` on its
+   * own points at a section this page does not have.
+   */
+  onSubpage = false,
+  /**
+   * Where the language switch goes. Defaults to the other language's home
+   * page; a subpage passes its own counterpart so the switch keeps the reader
+   * on the document they were reading instead of sending them to the top.
+   */
+  altHref,
+}: {
+  locale: Locale;
+  onSubpage?: boolean;
+  altHref?: string;
+}) {
   const content = getContent(locale);
   const t = content.header;
   const nav = content.nav;
   const other = content.alternate;
+  const home = localePath[locale];
+  const hrefFor = (hash: string) =>
+    onSubpage ? `${home === "/" ? "" : home}/${hash}`.replace("//", "/") : hash;
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("#home");
@@ -38,7 +61,7 @@ export default function Header({ locale }: { locale: Locale }) {
   // and rebuilt on every scroll tick.
   const navHrefs = nav.map((item) => item.href).join(",");
   useEffect(() => {
-    if (typeof IntersectionObserver === "undefined") return;
+    if (onSubpage || typeof IntersectionObserver === "undefined") return;
     const sections = navHrefs
       .split(",")
       .map((href) => document.querySelector(href))
@@ -54,7 +77,7 @@ export default function Header({ locale }: { locale: Locale }) {
     );
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, [navHrefs]);
+  }, [navHrefs, onSubpage]);
 
   // Lock body scroll while the mobile sheet is open.
   useEffect(() => {
@@ -67,14 +90,14 @@ export default function Header({ locale }: { locale: Locale }) {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-navy-950/85 backdrop-blur-xl shadow-[0_1px_0_rgba(58,114,214,0.28)]"
+        scrolled || onSubpage
+          ? "bg-navy-950/95 backdrop-blur-xl shadow-[0_1px_0_rgba(58,114,214,0.28)]"
           : "bg-transparent"
       }`}
     >
       <div className="container-awj flex h-[72px] items-center justify-between gap-4">
         <a
-          href="#home"
+          href={onSubpage ? home : "#home"}
           className="flex shrink-0 items-center"
           aria-label={t.homeAria}
         >
@@ -98,7 +121,7 @@ export default function Header({ locale }: { locale: Locale }) {
           {nav.map((item) => (
             <a
               key={item.href}
-              href={item.href}
+              href={hrefFor(item.href)}
               aria-current={active === item.href ? "page" : undefined}
               className={`nav-link relative rounded-full px-3.5 py-2 text-[15px] transition-colors ${
                 active === item.href
@@ -116,7 +139,7 @@ export default function Header({ locale }: { locale: Locale }) {
               assistive tech and crawlers what sits behind the link, so the
               label reads in its own language rather than the page's. */}
           <Link
-            href={localePath[other.locale]}
+            href={altHref ?? localePath[other.locale]}
             lang={other.locale}
             hrefLang={other.locale}
             aria-label={other.aria}
@@ -126,7 +149,7 @@ export default function Header({ locale }: { locale: Locale }) {
           </Link>
 
           <a
-            href="#contact"
+            href={hrefFor("#contact")}
             className="hidden rounded-full gradient-bg px-5 py-2.5 text-[15px] font-semibold text-white transition-transform hover:scale-[1.03] active:scale-95 sm:inline-block"
           >
             {t.startProject}
@@ -191,7 +214,7 @@ export default function Header({ locale }: { locale: Locale }) {
           {nav.map((item) => (
             <a
               key={item.href}
-              href={item.href}
+              href={hrefFor(item.href)}
               onClick={() => setOpen(false)}
               className="border-b border-white/5 py-3.5 text-[17px] text-white/80 last:border-0 hover:text-brand-500"
             >
@@ -199,7 +222,7 @@ export default function Header({ locale }: { locale: Locale }) {
             </a>
           ))}
           <a
-            href="#contact"
+            href={hrefFor("#contact")}
             onClick={() => setOpen(false)}
             className="mt-4 mb-2 rounded-full gradient-bg px-5 py-3 text-center font-semibold text-white"
           >

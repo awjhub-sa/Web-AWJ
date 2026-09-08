@@ -222,6 +222,27 @@ export type Content = {
     /** Pre-filled first message, so the visitor does not start from a blank chat. */
     prefill: string;
   };
+  /**
+   * The two standalone documents. Their wording describes what this site
+   * actually does — no cookies, no analytics, one form that emails a Zoho
+   * inbox — so it has to be revisited whenever that changes, not copied from
+   * a template that describes some other site.
+   */
+  legal: {
+    updatedLabel: string;
+    updated: string;
+    backHome: string;
+    navAria: string;
+    privacy: LegalDoc;
+    terms: LegalDoc;
+  };
+};
+
+type LegalDoc = {
+  title: string;
+  metaDescription: string;
+  intro: string;
+  sections: { heading: string; body?: string; list?: string[] }[];
 };
 
 const ar: Content = {
@@ -523,6 +544,165 @@ const ar: Content = {
     aria: "تواصل معنا عبر واتساب",
     tooltip: "راسلنا على واتساب",
     prefill: "السلام عليكم، تواصلت معكم من موقع أوج لحلول الأعمال.",
+  },
+  legal: {
+    updatedLabel: "آخر تحديث",
+    updated: "٩ سبتمبر ٢٠٢٦",
+    backHome: "العودة إلى الصفحة الرئيسية",
+    navAria: "روابط نظامية",
+    privacy: {
+      title: "سياسة الخصوصية",
+      metaDescription:
+        "كيف يتعامل موقع أوج لحلول الأعمال مع بياناتك: لا ملفات ارتباط ولا تحليلات، والبيانات الوحيدة التي نجمعها هي ما تكتبه في نموذج التواصل.",
+      intro:
+        "تشرح هذه السياسة ما الذي يجمعه موقع أوج لحلول الأعمال (awjhub.com) وما لا يجمعه، وأين تذهب بياناتك، وما حقوقك حيالها. وهي تصف الموقع كما هو مبني فعليًا اليوم، لا نموذجًا عامًا.",
+      sections: [
+        {
+          heading: "ما لا نجمعه",
+          body: "نبدأ بهذا لأنه الأهم: هذا الموقع لا يتتبّعك.",
+          list: [
+            "لا نضع أي ملفات ارتباط (Cookies) على جهازك — ولا حتى ملفات «ضرورية».",
+            "لا نستخدم Google Analytics ولا أي أداة تحليلات أو قياس أو إعلانات.",
+            "لا نستخدم التخزين المحلي في المتصفّح ولا بصمة الجهاز.",
+            "خط الموقع مستضاف على خوادمنا، فلا يُرسَل أي طلب إلى جوجل أو غيرها عند فتح الصفحة.",
+            "لا نبيع بياناتك ولا نشاركها لأغراض تسويقية، ولا نستخدمها في أي إعلان.",
+          ],
+        },
+        {
+          heading: "البيانات التي نجمعها",
+          body: "البيانات الوحيدة التي نجمعها منك هي ما تكتبه بنفسك في نموذج التواصل وترسله باختيارك:",
+          list: [
+            "الاسم — مطلوب",
+            "البريد الإلكتروني — مطلوب",
+            "الجهة أو الشركة — اختياري",
+            "رقم الجوال — اختياري",
+            "الخدمة المطلوبة — اختياري",
+            "تفاصيل احتياجك — اختياري",
+            "لغة الصفحة التي راسلتنا منها، لنردّ عليك بلغتك",
+          ],
+        },
+        {
+          heading: "الغرض من جمعها",
+          body: "نستخدم هذه البيانات لغرض واحد: الرد على طلبك ومناقشة مشروعك. الأساس النظامي لذلك هو موافقتك الصريحة عند إرسال النموذج، وتنفيذ خطوات ما قبل التعاقد بناءً على طلبك. ولا نستخدمها لأي غرض آخر دون إذنك.",
+        },
+        {
+          heading: "أين تذهب بياناتك",
+          body: "لا يملك هذا الموقع قاعدة بيانات، ولا تُخزَّن رسالتك فيه. عند الإرسال تُحوَّل الرسالة مباشرة إلى بريد إلكتروني يصل إلى صندوقنا على info@awjhub.com، ويُنقل عبر خدمة ZeptoMail التابعة لشركة Zoho. وإن لم يكن الإرسال المباشر متاحًا لأي سبب، يفتح الموقع برنامج البريد على جهازك بالرسالة جاهزة — فتبقى الرسالة عندك ولا تمرّ بنا حتى ترسلها بنفسك.",
+        },
+        {
+          heading: "مزوّدو الخدمة",
+          body: "نستعين بمزوّدين اثنين فقط، وكلٌّ منهما يعالج البيانات نيابة عنا:",
+          list: [
+            "Cloudflare — استضافة الموقع وتقديمه. وبصفتها مشغّل البنية التحتية، تعالج بيانات تقنية لكل طلب مثل عنوان IP ونوع المتصفّح، لأغراض التشغيل والحماية من الهجمات.",
+            "Zoho (ZeptoMail وZoho Mail) — إرسال رسالة النموذج واستقبالها في صندوق بريدنا.",
+          ],
+        },
+        {
+          heading: "مدة الاحتفاظ",
+          body: "تبقى رسالتك في صندوق بريدنا ما دامت هناك حاجة للتعامل مع طلبك أو الالتزام بمتطلبات نظامية أو محاسبية. ويمكنك أن تطلب حذفها في أي وقت.",
+        },
+        {
+          heading: "الروابط والخدمات الخارجية",
+          body: "يحتوي الموقع على روابط إلى واتساب وLinktree. وعند الضغط عليها تنتقل إلى منصات خارجية لا نتحكم فيها، وتخضع لسياسات الخصوصية الخاصة بها. ولا يُرسَل أي شيء إلى هذه المنصات إلا عندما تضغط الرابط بنفسك.",
+        },
+        {
+          heading: "حقوقك",
+          body: "بموجب نظام حماية البيانات الشخصية في المملكة العربية السعودية، لك الحق في:",
+          list: [
+            "معرفة البيانات التي لدينا عنك والاطّلاع عليها",
+            "طلب تصحيحها أو تحديثها",
+            "طلب حذفها",
+            "سحب موافقتك في أي وقت",
+            "الاعتراض على معالجتها أو تقييدها",
+            "الحصول على نسخة منها بصيغة مقروءة",
+          ],
+        },
+        {
+          heading: "كيف تمارس حقوقك",
+          body: "أرسل طلبك إلى info@awjhub.com موضّحًا ما تريده، ونتعامل معه خلال مدة معقولة. وإذا رأيت أن طلبك لم يُعالَج كما ينبغي، فلك حق التقدّم بشكوى إلى الجهة المختصة بحماية البيانات الشخصية في المملكة.",
+        },
+        {
+          heading: "أمن البيانات",
+          body: "يُقدَّم الموقع بالكامل عبر اتصال مشفّر (HTTPS)، ومفاتيح خدمة البريد محفوظة كأسرار مشفّرة لدى مزوّد الاستضافة ولا تظهر في شفرة الموقع. ومع ذلك، لا توجد وسيلة نقل عبر الإنترنت آمنة بصورة مطلقة، فنرجو عدم إرسال معلومات بالغة الحساسية عبر النموذج.",
+        },
+        {
+          heading: "خصوصية الأطفال",
+          body: "هذا الموقع موجَّه إلى الجهات والأفراد الباحثين عن حلول أعمال، ولا نقصد جمع بيانات من دون سنّ الثامنة عشرة. وإن وصلتنا بيانات كهذه، نحذفها عند علمنا بها.",
+        },
+        {
+          heading: "التعديلات على هذه السياسة",
+          body: "قد نحدّث هذه السياسة كلما تغيّر ما يفعله الموقع فعليًا. وتاريخ آخر تحديث مذكور أعلى الصفحة، ونسري التعديل من تاريخ نشره.",
+        },
+        {
+          heading: "التواصل",
+          body: "لأي سؤال عن هذه السياسة أو عن بياناتك، راسلنا على info@awjhub.com.",
+        },
+      ],
+    },
+    terms: {
+      title: "الشروط والأحكام",
+      metaDescription:
+        "شروط استخدام موقع أوج لحلول الأعمال: طبيعة الموقع، الملكية الفكرية، حدود المسؤولية، والنظام الواجب التطبيق.",
+      intro:
+        "تنظّم هذه الشروط استخدامك لموقع أوج لحلول الأعمال (awjhub.com). وباستخدامك الموقع فإنك توافق عليها. وإن لم توافق، نرجو عدم استخدامه.",
+      sections: [
+        {
+          heading: "طبيعة الموقع",
+          body: "هذا موقع تعريفي بشركة أوج لحلول الأعمال وخدماتها ومشاريعها. المعلومات المنشورة فيه لأغراض التعريف العام، ولا تُعدّ عرضًا ملزمًا ولا استشارة مهنية.",
+        },
+        {
+          heading: "الملكية الفكرية",
+          body: "جميع محتويات الموقع — من نصوص وتصاميم وشعارات وهوية بصرية وشفرة برمجية — مملوكة لشركة أوج لحلول الأعمال أو مرخّصة لها. ولا يجوز نسخها أو إعادة نشرها أو استخدامها تجاريًا دون إذن كتابي مسبق. وتبقى شعارات المشاريع والعلامات التجارية المذكورة ملكًا لأصحابها.",
+        },
+        {
+          heading: "الاستخدام المقبول",
+          body: "توافق على عدم القيام بما يلي:",
+          list: [
+            "استخدام الموقع لأي غرض غير نظامي أو مخالف لأنظمة المملكة العربية السعودية",
+            "محاولة الوصول غير المصرّح به إلى الموقع أو أي نظام مرتبط به",
+            "تعطيل الموقع أو إثقاله بطلبات آلية أو محاولة تجاوز إجراءاته الأمنية",
+            "إرسال محتوى مضلّل أو ضار أو منتحل الصفة عبر نموذج التواصل",
+            "استخراج محتوى الموقع آليًا لإعادة نشره أو استخدامه تجاريًا",
+          ],
+        },
+        {
+          heading: "نموذج التواصل لا يُنشئ تعاقدًا",
+          body: "إرسال النموذج أو التواصل معنا عبر واتساب أو البريد هو استفسار مبدئي فحسب، ولا ينشئ أي التزام تعاقدي على أي من الطرفين. ولا ينشأ التعاقد إلا بعقد مكتوب موقّع من الطرفين يحدّد نطاق العمل والمدة والمقابل المالي.",
+        },
+        {
+          heading: "ما يُذكر عن الخدمات",
+          body: "ما يرد في الموقع عن الخدمات ومدد التنفيذ وطريقة العمل هو وصف عام لمنهجيتنا. أما تفاصيل أي مشروع — بما فيها مدة التسليم ونطاقه والمقابل — فتُحدَّد في العقد الخاص به، وهو المرجع عند أي اختلاف مع ما نُشر هنا. وتظل ملكية الشفرة البرمجية والبيانات للعميل وفق ما ينصّ عليه عقده.",
+        },
+        {
+          heading: "الروابط الخارجية",
+          body: "قد يحيلك الموقع إلى منصات خارجية مثل واتساب وLinktree. ولا نتحكم في محتواها ولا نتحمّل مسؤولية ما يرد فيها، ويخضع استخدامك لها لشروط تلك المنصات.",
+        },
+        {
+          heading: "توافر الموقع",
+          body: "نسعى لإبقاء الموقع متاحًا وصحيح المعلومات، لكننا لا نضمن استمرارية عمله دون انقطاع ولا خلوّه من الأخطاء. وقد نعدّل محتواه أو نوقفه كليًا أو جزئيًا في أي وقت ودون إشعار مسبق.",
+        },
+        {
+          heading: "حدود المسؤولية",
+          body: "يُقدَّم الموقع «كما هو». وفي حدود ما يسمح به النظام، لا نتحمّل المسؤولية عن أي ضرر مباشر أو غير مباشر أو تبعي ينشأ عن استخدام الموقع أو تعذّر استخدامه أو عن الاعتماد على معلوماته دون الرجوع إلينا.",
+        },
+        {
+          heading: "الخصوصية",
+          body: "تُعدّ سياسة الخصوصية جزءًا لا يتجزأ من هذه الشروط، وتوضّح كيفية تعاملنا مع بياناتك.",
+        },
+        {
+          heading: "تعديل الشروط",
+          body: "قد نحدّث هذه الشروط من وقت لآخر، ويسري التعديل من تاريخ نشره على هذه الصفحة. واستمرارك في استخدام الموقع بعد التحديث يُعدّ قبولًا به.",
+        },
+        {
+          heading: "النظام الواجب التطبيق",
+          body: "تخضع هذه الشروط لأنظمة المملكة العربية السعودية وتُفسَّر وفقها، وتختص الجهات القضائية في المملكة بالنظر في أي نزاع ينشأ عنها.",
+        },
+        {
+          heading: "التواصل",
+          body: "لأي استفسار عن هذه الشروط، راسلنا على info@awjhub.com.",
+        },
+      ],
+    },
   },
 };
 
@@ -826,6 +1006,165 @@ const en: Content = {
     aria: "Chat with us on WhatsApp",
     tooltip: "Message us on WhatsApp",
     prefill: "Hello, I found you through the AWJ HUB website.",
+  },
+  legal: {
+    updatedLabel: "Last updated",
+    updated: "9 September 2026",
+    backHome: "Back to the home page",
+    navAria: "Legal links",
+    privacy: {
+      title: "Privacy Policy",
+      metaDescription:
+        "How the AWJ HUB website handles your data: no cookies, no analytics, and the only data collected is what you type into the contact form.",
+      intro:
+        "This policy explains what the AWJ HUB website (awjhub.com) collects and what it does not, where your data goes, and what rights you have over it. It describes the site as it is actually built today, not a generic template.",
+      sections: [
+        {
+          heading: "What we do not collect",
+          body: "This comes first because it matters most: this site does not track you.",
+          list: [
+            "We set no cookies on your device — not even “essential” ones.",
+            "We use no Google Analytics and no other analytics, measurement or advertising tool.",
+            "We use no browser storage and no device fingerprinting.",
+            "The site's typeface is served from our own servers, so opening a page sends no request to Google or anyone else.",
+            "We do not sell your data, share it for marketing, or use it in any advertising.",
+          ],
+        },
+        {
+          heading: "What we collect",
+          body: "The only data we collect from you is what you type into the contact form and choose to send:",
+          list: [
+            "Name — required",
+            "Email address — required",
+            "Organisation or company — optional",
+            "Mobile number — optional",
+            "Service needed — optional",
+            "Details of what you need — optional",
+            "The language of the page you wrote from, so we reply in it",
+          ],
+        },
+        {
+          heading: "Why we collect it",
+          body: "We use this data for one purpose: to answer your enquiry and discuss your project. The lawful basis is your explicit consent when you submit the form, and taking steps at your request before entering a contract. We do not use it for anything else without your permission.",
+        },
+        {
+          heading: "Where your data goes",
+          body: "This website has no database, and your message is not stored on it. On submission the message is turned straight into an email that arrives in our inbox at info@awjhub.com, delivered through ZeptoMail, a Zoho service. If direct sending is unavailable for any reason, the site opens the mail app on your own device with the message prepared — so it stays with you and never passes through us until you send it yourself.",
+        },
+        {
+          heading: "Service providers",
+          body: "We rely on two providers only, each processing data on our behalf:",
+          list: [
+            "Cloudflare — hosts and serves the website. As the infrastructure operator it processes technical data for each request, such as IP address and browser type, for operation and protection against attacks.",
+            "Zoho (ZeptoMail and Zoho Mail) — delivers the form message and receives it in our inbox.",
+          ],
+        },
+        {
+          heading: "How long we keep it",
+          body: "Your message stays in our inbox for as long as it is needed to deal with your enquiry or to meet a legal or accounting requirement. You can ask us to delete it at any time.",
+        },
+        {
+          heading: "External links and services",
+          body: "The site links to WhatsApp and Linktree. Following those links takes you to external platforms we do not control, each governed by its own privacy policy. Nothing is sent to them unless you click the link yourself.",
+        },
+        {
+          heading: "Your rights",
+          body: "Under the Personal Data Protection Law of the Kingdom of Saudi Arabia, you have the right to:",
+          list: [
+            "Know what data we hold about you and access it",
+            "Ask for it to be corrected or updated",
+            "Ask for it to be deleted",
+            "Withdraw your consent at any time",
+            "Object to or restrict its processing",
+            "Receive a copy of it in a readable format",
+          ],
+        },
+        {
+          heading: "How to exercise your rights",
+          body: "Send your request to info@awjhub.com setting out what you want, and we will deal with it within a reasonable period. If you believe your request was not handled properly, you may complain to the competent personal data protection authority in the Kingdom.",
+        },
+        {
+          heading: "Data security",
+          body: "The entire site is served over an encrypted connection (HTTPS), and the mail service keys are held as encrypted secrets with the hosting provider and never appear in the site's code. Even so, no method of transmission over the internet is completely secure, so please do not send highly sensitive information through the form.",
+        },
+        {
+          heading: "Children's privacy",
+          body: "This site is aimed at organisations and individuals looking for business solutions, and we do not intend to collect data from anyone under eighteen. If such data reaches us, we delete it once we become aware of it.",
+        },
+        {
+          heading: "Changes to this policy",
+          body: "We may update this policy whenever what the site actually does changes. The date it was last updated is shown at the top of this page, and any change applies from the date it is published.",
+        },
+        {
+          heading: "Contact",
+          body: "For any question about this policy or about your data, write to info@awjhub.com.",
+        },
+      ],
+    },
+    terms: {
+      title: "Terms and Conditions",
+      metaDescription:
+        "Terms of use for the AWJ HUB website: the nature of the site, intellectual property, limits of liability, and governing law.",
+      intro:
+        "These terms govern your use of the AWJ HUB website (awjhub.com). By using the site you agree to them. If you do not agree, please do not use it.",
+      sections: [
+        {
+          heading: "The nature of this site",
+          body: "This is an informational site about AWJ for Business Solutions, its services and its projects. What is published here is for general information; it is neither a binding offer nor professional advice.",
+        },
+        {
+          heading: "Intellectual property",
+          body: "All content on this site — text, design, logos, visual identity and code — is owned by or licensed to AWJ for Business Solutions. It may not be copied, republished or used commercially without prior written permission. Project logos and any trademarks mentioned remain the property of their respective owners.",
+        },
+        {
+          heading: "Acceptable use",
+          body: "You agree not to:",
+          list: [
+            "Use the site for any unlawful purpose or in breach of the laws of the Kingdom of Saudi Arabia",
+            "Attempt unauthorised access to the site or any system connected to it",
+            "Disrupt the site, overload it with automated requests, or try to circumvent its security measures",
+            "Send misleading, harmful or impersonating content through the contact form",
+            "Scrape the site's content for republication or commercial use",
+          ],
+        },
+        {
+          heading: "The contact form creates no contract",
+          body: "Submitting the form, or contacting us by WhatsApp or email, is an initial enquiry only and creates no contractual obligation on either party. A contract arises only through a written agreement signed by both parties setting out the scope of work, the timeline and the fee.",
+        },
+        {
+          heading: "What is said about our services",
+          body: "What the site says about services, delivery windows and how we work is a general description of our approach. The particulars of any project — including its delivery window, scope and fee — are set out in its own contract, which prevails over anything published here in the event of a difference. Ownership of the code and the data remains with the client as that contract provides.",
+        },
+        {
+          heading: "External links",
+          body: "The site may direct you to external platforms such as WhatsApp and Linktree. We do not control their content and accept no responsibility for it; your use of them is governed by those platforms' own terms.",
+        },
+        {
+          heading: "Availability",
+          body: "We aim to keep the site available and its information accurate, but we do not warrant uninterrupted operation or freedom from error. We may change, suspend or withdraw any part of it at any time without prior notice.",
+        },
+        {
+          heading: "Limits of liability",
+          body: "The site is provided “as is”. To the extent permitted by law, we accept no liability for any direct, indirect or consequential loss arising from use of the site, from being unable to use it, or from relying on its information without checking with us.",
+        },
+        {
+          heading: "Privacy",
+          body: "Our Privacy Policy forms an integral part of these terms and explains how we handle your data.",
+        },
+        {
+          heading: "Changes to these terms",
+          body: "We may update these terms from time to time, and a change applies from the date it is published on this page. Continuing to use the site after an update means you accept it.",
+        },
+        {
+          heading: "Governing law",
+          body: "These terms are governed by and construed in accordance with the laws of the Kingdom of Saudi Arabia, and the courts of the Kingdom have jurisdiction over any dispute arising from them.",
+        },
+        {
+          heading: "Contact",
+          body: "For any question about these terms, write to info@awjhub.com.",
+        },
+      ],
+    },
   },
 };
 

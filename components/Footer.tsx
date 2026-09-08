@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { getContent, site, type Locale } from "@/lib/content";
+import Link from "next/link";
+import { getContent, localePath, site, type Locale } from "@/lib/content";
 import {
   IconInstagram,
   IconLinkedIn,
@@ -10,9 +11,20 @@ import {
 /** Shown inside the Linktree button as a hint of what is behind it. */
 const platforms = [IconX, IconLinkedIn, IconInstagram];
 
-export default function Footer({ locale }: { locale: Locale }) {
+export default function Footer({
+  locale,
+  /** Prefix the section links with the home path when away from the home page. */
+  onSubpage = false,
+}: {
+  locale: Locale;
+  onSubpage?: boolean;
+}) {
   const content = getContent(locale);
   const t = content.footer;
+  // "/" for Arabic, "/en/" for English — so the legal links stay inside the
+  // language the reader is already in.
+  const base = locale === "en" ? `${localePath.en}/` : localePath.ar;
+  const hrefFor = (hash: string) => (onSubpage ? `${base}${hash}` : hash);
   return (
     <footer className="edge-gradient dot-grid relative overflow-hidden bg-navy-950 pt-16">
       <span
@@ -43,7 +55,7 @@ export default function Footer({ locale }: { locale: Locale }) {
               {content.nav.map((item) => (
                 <li key={item.href}>
                   <a
-                    href={item.href}
+                    href={hrefFor(item.href)}
                     className="text-[15px] text-white/55 transition-colors hover:text-brand-400"
                   >
                     {item.label}
@@ -59,7 +71,7 @@ export default function Footer({ locale }: { locale: Locale }) {
               {content.services.items.map((service) => (
                 <li key={service.id}>
                   <a
-                    href="#services"
+                    href={hrefFor("#services")}
                     className="text-[15px] text-white/55 transition-colors hover:text-brand-400"
                   >
                     {service.title}
@@ -75,7 +87,7 @@ export default function Footer({ locale }: { locale: Locale }) {
               {content.projects.items.map((project) => (
                 <li key={project.id}>
                   <a
-                    href="#projects"
+                    href={hrefFor("#projects")}
                     className="text-[15px] text-white/55 transition-colors hover:text-brand-400"
                   >
                     {project.name} {project.subtitle}
@@ -142,12 +154,34 @@ export default function Footer({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-[13px] text-white/60 sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-7 text-[13px] text-white/60 sm:flex-row">
           <p>
             © {new Date().getFullYear()}{" "}
             {locale === "en" ? site.nameEn : site.nameAr}. {t.rights}
           </p>
-          <p dir="ltr">
+
+          <nav aria-label={content.legal.navAria} className="order-first sm:order-none">
+            <ul className="flex items-center gap-5">
+              <li>
+                <Link
+                  href={`${base}privacy`}
+                  className="transition-colors hover:text-brand-400"
+                >
+                  {content.legal.privacy.title}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={`${base}terms`}
+                  className="transition-colors hover:text-brand-400"
+                >
+                  {content.legal.terms.title}
+                </Link>
+              </li>
+            </ul>
+          </nav>
+
+          <p dir="ltr" className="hidden lg:block">
             {site.nameEn} — {site.taglineEn}
           </p>
         </div>
