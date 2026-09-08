@@ -414,6 +414,40 @@
   }
 }
 
+/* Switching projects: the panel is remounted, so these replay each time. */
+@keyframes awj-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.panel-in {
+  animation: awj-panel-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes awj-feature-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.feature-in {
+  animation: awj-feature-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .panel-in,
+  .feature-in {
+    animation: none;
+  }
+}
+
 /* Marquee for the client strip */
 @keyframes awj-marquee {
   from {

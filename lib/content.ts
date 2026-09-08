@@ -86,6 +86,11 @@ type Project = {
   /** Line introducing the feature list, ending in a colon. */
   lead: string;
   features: string[];
+  /**
+   * Short factual chips — platform, sector. Only ever things stated elsewhere
+   * on the site or in the Schema.org record, never a claim invented here.
+   */
+  tags?: string[];
 };
 
 export type Content = {
@@ -152,6 +157,8 @@ export type Content = {
     titleLead: string;
     titleHighlight: string;
     cta: string;
+    /** Labels the tab strip; only rendered once there is more than one project. */
+    tablistAria: string;
     items: Project[];
   };
   why: {
@@ -358,6 +365,7 @@ const ar: Content = {
     titleLead: "أنظمة بنيناها،",
     titleHighlight: "وتعمل اليوم فعلًا",
     cta: "اطلب عرضًا لمشروع مشابه",
+    tablistAria: "اختر مشروعًا",
     items: [
       {
         id: "nsab",
@@ -377,6 +385,7 @@ const ar: Content = {
           "إنشاء التقارير بشكل سهل وسريع",
           "مؤشرات أداء تكشف إنتاجية كل مركز وسرعة تنفيذه — لحظة بلحظة",
         ],
+        tags: ["منصة ويب", "تطبيق iOS وأندرويد", "قطاع الحج"],
       },
     ],
   },
@@ -658,6 +667,7 @@ const en: Content = {
     titleLead: "Systems we built,",
     titleHighlight: "running in production today",
     cta: "Ask for a quote on a similar project",
+    tablistAria: "Choose a project",
     items: [
       {
         id: "nsab",
@@ -677,6 +687,7 @@ const en: Content = {
           "Produce reports quickly and easily",
           "See performance indicators exposing each centre's output and speed — moment by moment",
         ],
+        tags: ["Web platform", "iOS and Android app", "Hajj sector"],
       },
     ],
   },
