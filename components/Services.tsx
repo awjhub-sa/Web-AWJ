@@ -20,8 +20,8 @@ export default function Services({ locale }: { locale: Locale }) {
             const Icon = serviceIcons[service.icon];
             return (
               <Reveal as="li" key={service.id} delay={i * 100}>
-                <article className="group flex h-full flex-col rounded-card border border-line bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brand-600/40 hover:shadow-[0_18px_45px_-22px_rgba(20,196,138,0.45)]">
-                  <span className="grid h-12 w-12 place-items-center rounded-2xl gradient-bg text-coal-950 transition-transform duration-300 group-hover:scale-110">
+                <article className="group flex h-full flex-col rounded-card border border-line bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brand-600/40 hover:shadow-[0_18px_45px_-22px_rgba(58,114,214,0.42)]">
+                  <span className="grid h-12 w-12 place-items-center rounded-2xl gradient-bg text-white transition-transform duration-300 group-hover:scale-110">
                     <Icon className="h-6 w-6" />
                   </span>
                   <h3 className="mt-5 text-[22px] font-bold text-ink-900">

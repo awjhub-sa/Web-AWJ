@@ -101,7 +101,7 @@ export default function Contact({ locale }: { locale: Locale }) {
   return (
     <section
       id="contact"
-      className="edge-gradient relative overflow-hidden bg-coal-800 py-24 sm:py-28"
+      className="edge-gradient relative overflow-hidden bg-navy-800 py-24 sm:py-28"
     >
       <div
         aria-hidden
@@ -244,7 +244,7 @@ export default function Contact({ locale }: { locale: Locale }) {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="group mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full gradient-bg px-7 py-3.5 font-semibold text-coal-950 transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+              className="group mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full gradient-bg px-7 py-3.5 font-semibold text-white transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
             >
               {status === "sending" ? t.status.sending : t.submit}
               <IconArrow className="h-5 w-5 transition-transform group-hover:-translate-x-1 ltr:group-hover:translate-x-1" />

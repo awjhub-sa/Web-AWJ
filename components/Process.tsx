@@ -44,7 +44,7 @@ export default function Process({ locale }: { locale: Locale }) {
               delay={i * 110}
               className="group relative"
             >
-              <span className="relative z-10 grid h-14 w-14 place-items-center rounded-2xl gradient-bg text-lg font-bold text-coal-950 transition-transform duration-300 group-hover:scale-110">
+              <span className="relative z-10 grid h-14 w-14 place-items-center rounded-2xl gradient-bg text-lg font-bold text-white transition-transform duration-300 group-hover:scale-110">
                 {step.step}
               </span>
               <h3 className="mt-5 text-xl font-bold text-ink-900">

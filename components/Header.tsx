@@ -68,7 +68,7 @@ export default function Header({ locale }: { locale: Locale }) {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-coal-950/85 backdrop-blur-xl shadow-[0_1px_0_rgba(20,196,138,0.22)]"
+          ? "bg-navy-950/85 backdrop-blur-xl shadow-[0_1px_0_rgba(58,114,214,0.28)]"
           : "bg-transparent"
       }`}
     >
@@ -79,15 +79,15 @@ export default function Header({ locale }: { locale: Locale }) {
           aria-label={t.homeAria}
         >
           <Image
-            src={content.logo}
-            alt={locale === "en" ? site.nameEn : site.nameAr}
-            width={144}
-            height={180}
+            src={site.logo.wideLight.src}
+            alt={`${site.nameAr} — ${site.nameEn}`}
+            width={site.logo.wideLight.width}
+            height={site.logo.wideLight.height}
             priority
             // Vector already — the optimizer has nothing to gain here, and it
             // refuses SVG without `dangerouslyAllowSVG`.
             unoptimized
-            className="h-11 w-auto"
+            className="h-8 w-auto sm:h-9"
           />
         </a>
 
@@ -127,7 +127,7 @@ export default function Header({ locale }: { locale: Locale }) {
 
           <a
             href="#contact"
-            className="hidden rounded-full gradient-bg px-5 py-2.5 text-[15px] font-semibold text-coal-950 transition-transform hover:scale-[1.03] active:scale-95 sm:inline-block"
+            className="hidden rounded-full gradient-bg px-5 py-2.5 text-[15px] font-semibold text-white transition-transform hover:scale-[1.03] active:scale-95 sm:inline-block"
           >
             {t.startProject}
           </a>
@@ -180,7 +180,7 @@ export default function Header({ locale }: { locale: Locale }) {
         // Collapsed to max-height 0, but the links stay focusable unless the
         // sheet is taken out of the accessibility tree entirely.
         inert={!open}
-        className={`overflow-hidden border-t border-white/10 bg-coal-950/95 backdrop-blur-xl transition-[max-height] duration-400 lg:hidden ${
+        className={`overflow-hidden border-t border-white/10 bg-navy-950/95 backdrop-blur-xl transition-[max-height] duration-400 lg:hidden ${
           open ? "max-h-[520px]" : "max-h-0"
         }`}
       >
@@ -201,7 +201,7 @@ export default function Header({ locale }: { locale: Locale }) {
           <a
             href="#contact"
             onClick={() => setOpen(false)}
-            className="mt-4 mb-2 rounded-full gradient-bg px-5 py-3 text-center font-semibold text-coal-950"
+            className="mt-4 mb-2 rounded-full gradient-bg px-5 py-3 text-center font-semibold text-white"
           >
             {t.startProject}
           </a>

@@ -47,7 +47,7 @@ export default function Shell({
         />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:z-[100] focus:start-4 focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-coal-950"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:z-[100] focus:start-4 focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-navy-950"
         >
           {t.header.skipToContent}
         </a>

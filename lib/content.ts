@@ -37,6 +37,25 @@ export const site = {
    */
   whatsapp: "966567310842",
   whatsappDisplay: "+966 56 731 0842",
+  /**
+   * The 2026 identity. Both lockups carry the Arabic and the Latin wordmark
+   * together, so unlike the old mark there is nothing to swap per language.
+   * `light` is the white-on-navy cut; `dark` is the navy-on-white one.
+   */
+  logo: {
+    wideLight: { src: "/assets/awj-wide-light.svg", width: 795, height: 181 },
+    wideDark: { src: "/assets/awj-wide-dark.svg", width: 795, height: 181 },
+    stackedLight: {
+      src: "/assets/awj-stacked-light.svg",
+      width: 1131,
+      height: 1010,
+    },
+    stackedDark: {
+      src: "/assets/awj-stacked-dark.svg",
+      width: 1131,
+      height: 1010,
+    },
+  },
   /** All social accounts live behind one link instead of three dead ones. */
   linktree: "https://linktr.ee/awjhub",
 };
@@ -82,8 +101,6 @@ export type Content = {
     /** Schema.org Organization description. */
     orgDescription: string;
   };
-  /** Wordmark for this language: Arabic script or Latin. */
-  logo: string;
   header: {
     homeAria: string;
     startProject: string;
@@ -208,7 +225,6 @@ const ar: Content = {
     orgDescription:
       "البيت التقني الذي تُبنى فيه حلول الأعمال: تصميم وتطبيق الحلول الرقمية، إنشاء التطبيقات والمواقع الإلكترونية، والدعم الفني.",
   },
-  logo: "/assets/awj-ar-light.svg",
   header: {
     homeAria: `${site.nameAr} — الصفحة الرئيسية`,
     startProject: "ابدأ مشروعك",
@@ -492,7 +508,6 @@ const en: Content = {
     orgDescription:
       "The technical house where business solutions are built: solution design and delivery, web and mobile app development, and technical support.",
   },
-  logo: "/assets/awj-en-light.svg",
   header: {
     homeAria: `${site.nameEn} — home`,
     startProject: "Start your project",

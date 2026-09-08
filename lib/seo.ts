@@ -52,7 +52,7 @@ export function organizationJsonLd(locale: Locale) {
     name: locale === "en" ? site.nameEn : site.nameAr,
     alternateName: locale === "en" ? site.nameAr : site.nameEn,
     url: `${BASE}${locale === "en" ? "/en" : ""}`,
-    logo: `${BASE}/assets/awj-full-dark.svg`,
+    logo: `${BASE}${site.logo.wideDark.src}`,
     email: site.email,
     sameAs: [site.linktree],
     slogan: site.taglineEn,

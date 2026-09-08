@@ -14,7 +14,7 @@ export default function Footer({ locale }: { locale: Locale }) {
   const content = getContent(locale);
   const t = content.footer;
   return (
-    <footer className="edge-gradient relative overflow-hidden bg-coal-950 pt-16">
+    <footer className="edge-gradient relative overflow-hidden bg-navy-950 pt-16">
       <span
         aria-hidden
         className="pointer-events-none absolute -top-24 right-1/4 h-[320px] w-[320px] rounded-full bg-brand-600/12 blur-[130px]"
@@ -23,12 +23,12 @@ export default function Footer({ locale }: { locale: Locale }) {
         <div className="grid gap-12 pb-12 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
           <div>
             <Image
-              src="/assets/awj-full-light.svg"
+              src={site.logo.wideLight.src}
               alt={`${site.nameAr} — ${site.nameEn}`}
-              width={444}
-              height={180}
+              width={site.logo.wideLight.width}
+              height={site.logo.wideLight.height}
               unoptimized
-              className="h-auto w-[260px] max-w-full"
+              className="h-auto w-[240px] max-w-full"
             />
             <p className="mt-6 max-w-xs text-[15px] leading-[1.9] text-white/60">
               {t.tagline}

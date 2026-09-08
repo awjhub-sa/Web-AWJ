@@ -13,7 +13,7 @@ export default function Projects({ locale }: { locale: Locale }) {
   return (
     <section
       id="projects"
-      className="edge-gradient relative overflow-hidden bg-coal-800 py-24 sm:py-28"
+      className="edge-gradient relative overflow-hidden bg-navy-800 py-24 sm:py-28"
     >
       <div
         aria-hidden

@@ -14,7 +14,7 @@ export default function Hero({ locale }: { locale: Locale }) {
     // the strip out of view on first paint.
     <section
       id="home"
-      className="relative isolate flex min-h-[88svh] flex-col overflow-hidden bg-coal-950 pt-[72px] lg:min-h-svh"
+      className="relative isolate flex min-h-[88svh] flex-col overflow-hidden bg-navy-950 pt-[72px] lg:min-h-svh"
     >
       {/* Earth at night — the hero backdrop. The gradient underneath is what
           shows if the photo is ever missing, so the hero never reads broken. */}
@@ -33,11 +33,11 @@ export default function Hero({ locale }: { locale: Locale }) {
           stay legible, without washing the photo out. */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-coal-950/85 via-transparent to-coal-950/75"
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-navy-950/85 via-transparent to-navy-950/75"
       />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-gradient-to-l from-coal-950/80 via-coal-950/25 to-transparent ltr:bg-gradient-to-r"
+        className="absolute inset-0 -z-10 bg-gradient-to-l from-navy-950/80 via-navy-950/25 to-transparent ltr:bg-gradient-to-r"
       />
 
       <div className="container-awj relative grid flex-1 items-center gap-14 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
@@ -70,7 +70,7 @@ export default function Hero({ locale }: { locale: Locale }) {
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <a
                 href="#contact"
-                className="group inline-flex items-center gap-2 rounded-full gradient-bg px-7 py-3.5 font-semibold text-coal-950 transition-transform hover:scale-[1.03] active:scale-95"
+                className="group inline-flex items-center gap-2 rounded-full gradient-bg px-7 py-3.5 font-semibold text-white transition-transform hover:scale-[1.03] active:scale-95"
               >
                 {t.ctaPrimary}
                 <IconArrow className="h-5 w-5 transition-transform group-hover:-translate-x-1 ltr:group-hover:translate-x-1" />
@@ -91,15 +91,17 @@ export default function Hero({ locale }: { locale: Locale }) {
               aria-hidden
               className="absolute inset-0 -z-10 rounded-[36px] bg-gradient-to-br from-brand-600/25 to-brand-500/5 blur-2xl"
             />
-            <div className="rounded-[32px] border border-white/12 bg-coal-950/45 p-10 backdrop-blur-md">
+            <div className="rounded-[32px] border border-white/12 bg-navy-950/45 p-10 backdrop-blur-md">
+              {/* The stacked lockup, which is the identity at its fullest —
+                  the wide one already sits in the header two rows above. */}
               <Image
-                src={content.logo}
-                alt={locale === "en" ? site.nameEn : site.nameAr}
-                width={144}
-                height={180}
+                src={site.logo.stackedLight.src}
+                alt={`${site.nameAr} — ${site.nameEn}`}
+                width={site.logo.stackedLight.width}
+                height={site.logo.stackedLight.height}
                 priority
                 unoptimized
-                className="mx-auto h-auto w-full max-w-[180px]"
+                className="mx-auto h-auto w-full max-w-[230px]"
               />
               <div className="rule-gradient my-8" />
               <p
@@ -114,7 +116,7 @@ export default function Hero({ locale }: { locale: Locale }) {
       </div>
 
       {/* The three service lines, stated plainly */}
-      <div className="relative border-t border-brand-600/25 bg-coal-950/80 backdrop-blur-md">
+      <div className="relative border-t border-brand-600/25 bg-navy-950/80 backdrop-blur-md">
         <ul className="container-awj grid gap-y-6 py-8 sm:grid-cols-3">
           {content.pillars.map((pillar, i) => (
             <Reveal

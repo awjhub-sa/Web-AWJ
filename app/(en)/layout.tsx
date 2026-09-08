@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata("en");
 
-export const viewport = { themeColor: "#252525" };
+export const viewport = { themeColor: "#172639" };
 
 export default function EnglishLayout({ children }: { children: ReactNode }) {
   return <Shell locale="en">{children}</Shell>;
