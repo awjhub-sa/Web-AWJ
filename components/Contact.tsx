@@ -101,11 +101,11 @@ export default function Contact({ locale }: { locale: Locale }) {
   return (
     <section
       id="contact"
-      className="edge-gradient relative overflow-hidden bg-navy-800 py-24 sm:py-28"
+      className="edge-gradient dot-grid relative overflow-hidden bg-navy-800 py-24 sm:py-28"
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-32 top-10 h-[380px] w-[380px] rounded-full bg-brand-600/15 blur-[120px]"
+        className="orb-slow pointer-events-none absolute -right-32 top-10 h-[380px] w-[380px] rounded-full bg-brand-600/20 blur-[120px]"
       />
 
       <div className="container-awj relative grid gap-14 lg:grid-cols-[0.85fr_1.15fr]">

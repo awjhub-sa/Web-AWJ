@@ -100,9 +100,9 @@ export default function Header({ locale }: { locale: Locale }) {
               key={item.href}
               href={item.href}
               aria-current={active === item.href ? "page" : undefined}
-              className={`rounded-full px-3.5 py-2 text-[15px] transition-colors ${
+              className={`nav-link relative rounded-full px-3.5 py-2 text-[15px] transition-colors ${
                 active === item.href
-                  ? "text-brand-500"
+                  ? "text-brand-400"
                   : "text-white/70 hover:text-white"
               }`}
             >

@@ -1,5 +1,6 @@
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
+import Spotlight from "./Spotlight";
 import { getContent, type Locale } from "@/lib/content";
 
 export default function WhyUs({ locale }: { locale: Locale }) {
@@ -17,7 +18,10 @@ export default function WhyUs({ locale }: { locale: Locale }) {
         <ul className="mt-14 grid gap-5 md:grid-cols-2">
           {t.items.map((item, i) => (
             <Reveal as="li" key={item.title} delay={(i % 2) * 100}>
-              <article className="group relative h-full overflow-hidden rounded-card border border-line bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brand-600/40 hover:shadow-[0_18px_45px_-22px_rgba(58,114,214,0.42)]">
+              <Spotlight
+                as="article"
+                className="group h-full overflow-hidden rounded-card border border-line bg-white p-8 transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-600/40 hover:shadow-[0_22px_55px_-24px_rgba(58,114,214,0.5)]"
+              >
                 <span
                   aria-hidden
                   className="absolute inset-y-0 start-0 w-1 gradient-bg transition-[width] duration-300 group-hover:w-1.5"
@@ -31,7 +35,7 @@ export default function WhyUs({ locale }: { locale: Locale }) {
                 <p className="mt-3 text-[16px] leading-[1.9] text-ink-700">
                   {item.body}
                 </p>
-              </article>
+              </Spotlight>
             </Reveal>
           ))}
         </ul>

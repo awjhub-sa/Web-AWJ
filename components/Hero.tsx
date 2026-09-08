@@ -17,17 +17,36 @@ export default function Hero({ locale }: { locale: Locale }) {
       className="relative isolate flex min-h-[88svh] flex-col overflow-hidden bg-navy-950 pt-[72px] lg:min-h-svh"
     >
       {/* Earth at night — the hero backdrop. The gradient underneath is what
-          shows if the photo is ever missing, so the hero never reads broken. */}
-      <div aria-hidden className="hero-backdrop absolute inset-0 -z-20">
-        <Image
-          src="/assets/hero-earth.jpg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-[center_62%]"
-        />
+          shows if the photo is ever missing, so the hero never reads broken.
+          The three nested layers each own one transform: the entrance push-in,
+          the endless slow drift, and the scroll parallax. Collapsing them into
+          one element would mean the last animation declared wins. */}
+      <div
+        aria-hidden
+        className="hero-backdrop absolute inset-0 -z-20 overflow-hidden"
+      >
+        <div className="earth-in absolute inset-0">
+          <div className="earth-parallax absolute inset-0">
+            <div className="earth-float absolute inset-0">
+              <Image
+                src="/assets/hero-earth.jpg"
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover object-[center_62%]"
+              />
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* Brand-coloured light behind the headline, breathing slowly. */}
+      <div
+        aria-hidden
+        className="aura pointer-events-none absolute -z-10 h-[520px] w-[520px] rounded-full bg-brand-600/20 blur-[130px] ltr:left-[8%] rtl:right-[8%]"
+        style={{ top: "18%" }}
+      />
 
       {/* Two light scrims — just enough for the header and the Arabic copy to
           stay legible, without washing the photo out. */}
@@ -91,7 +110,7 @@ export default function Hero({ locale }: { locale: Locale }) {
               aria-hidden
               className="absolute inset-0 -z-10 rounded-[36px] bg-gradient-to-br from-brand-600/25 to-brand-500/5 blur-2xl"
             />
-            <div className="rounded-[32px] border border-white/12 bg-navy-950/45 p-10 backdrop-blur-md">
+            <div className="animated-border rounded-[32px] border border-white/12 bg-navy-950/45 p-10 backdrop-blur-md">
               {/* The stacked lockup, which is the identity at its fullest —
                   the wide one already sits in the header two rows above. */}
               <Image
@@ -116,7 +135,7 @@ export default function Hero({ locale }: { locale: Locale }) {
       </div>
 
       {/* The three service lines, stated plainly */}
-      <div className="relative border-t border-brand-600/25 bg-navy-950/80 backdrop-blur-md">
+      <div className="dot-grid relative overflow-hidden border-t border-brand-600/25 bg-navy-950/80 backdrop-blur-md">
         <ul className="container-awj grid gap-y-6 py-8 sm:grid-cols-3">
           {content.pillars.map((pillar, i) => (
             <Reveal

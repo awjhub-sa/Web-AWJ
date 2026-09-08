@@ -156,6 +156,264 @@
   }
 }
 
+/* ── Depth and motion ─────────────────────────────────────────
+   The page was structurally sound but visually still: every section was a
+   heading over a grid of flat cards. What follows adds texture and reaction
+   without adding weight — all of it CSS, and all of it dropped under
+   `prefers-reduced-motion`. */
+
+/* A faint dot lattice for the navy bands, faded out at the edges so it reads
+   as texture rather than as a pattern someone tiled. */
+.dot-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.07) 1px,
+    transparent 1px
+  );
+  background-size: 30px 30px;
+  -webkit-mask-image: radial-gradient(
+    75% 70% at 50% 0%,
+    #000 0%,
+    transparent 78%
+  );
+  mask-image: radial-gradient(75% 70% at 50% 0%, #000 0%, transparent 78%);
+}
+
+/* Slow-drifting colour clouds. Transform only, so they stay on the compositor
+   and never trigger layout. */
+@keyframes awj-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(5%, -7%, 0) scale(1.15);
+  }
+}
+.orb {
+  animation: awj-drift 22s ease-in-out infinite;
+}
+.orb-slow {
+  animation: awj-drift 34s ease-in-out infinite reverse;
+}
+
+/* Cursor-tracked glow. The coordinates come from Spotlight.tsx as custom
+   properties; with no pointer the fallback centres it and nothing moves. */
+.spotlight {
+  position: relative;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    240px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(58, 114, 214, 0.16),
+    transparent 62%
+  );
+}
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* A brand-gradient hairline that draws itself around the hero card. */
+@keyframes awj-sheen {
+  to {
+    background-position: 200% 50%;
+  }
+}
+.animated-border {
+  position: relative;
+  background-clip: padding-box;
+}
+.animated-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+      110deg,
+      transparent 20%,
+      var(--color-brand-500) 45%,
+      var(--color-brand-400) 55%,
+      transparent 80%
+    )
+    0 50% / 200% 100%;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: awj-sheen 6s linear infinite;
+  pointer-events: none;
+}
+
+/* The rule under a section title draws out from its start edge. It sits inside
+   the Reveal rather than on it, so the wrapper keeps its own fade and this
+   only ever owns the bar's own transform. */
+.rule-draw {
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+[dir="ltr"] .rule-draw {
+  transform-origin: left center;
+}
+.reveal.is-visible .rule-draw {
+  transform: scaleX(1);
+}
+
+/* Nav links grow an underline from the centre instead of just changing hue. */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background-image: linear-gradient(
+    95deg,
+    var(--color-brand-500),
+    var(--color-brand-400)
+  );
+  transform: translateX(-50%);
+  transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover::after,
+.nav-link[aria-current="page"]::after {
+  width: 60%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb,
+  .orb-slow,
+  .animated-border::before {
+    animation: none;
+  }
+  .rule-draw {
+    transform: none;
+    transition: none;
+  }
+  .nav-link::after {
+    transition: none;
+  }
+}
+
+/* ── The earth's entrance ─────────────────────────────────────
+   The first thing anyone sees. It used to be simply present; now it settles
+   into place — a slow push-in out of black, the way a camera arrives. Three
+   nested layers because each owns a transform and they would otherwise
+   overwrite one another: one plays once on load, one breathes forever, one
+   follows the scroll. */
+@keyframes awj-earth-in {
+  from {
+    opacity: 0;
+    transform: scale(1.22) translate3d(0, 2.5%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+.earth-in {
+  animation: awj-earth-in 2.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* A barely-there drift, so the frame is never completely dead. */
+@keyframes awj-earth-float {
+  0%,
+  100% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.05) translate3d(-1.2%, -0.8%, 0);
+  }
+}
+.earth-float {
+  animation: awj-earth-float 40s ease-in-out infinite;
+}
+
+/* Scroll parallax, progressive: browsers without scroll-driven animations
+   simply keep the image still, which is the current behaviour anyway. */
+@keyframes awj-earth-parallax {
+  to {
+    transform: translate3d(0, 14%, 0);
+  }
+}
+@supports (animation-timeline: view()) {
+  .earth-parallax {
+    animation: awj-earth-parallax linear both;
+    animation-timeline: view();
+    animation-range: contain 0% exit 100%;
+  }
+}
+
+/* The glow behind the headline breathes with the same slow pulse. */
+@keyframes awj-aura {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.18);
+  }
+}
+.aura {
+  animation: awj-aura 12s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .earth-in {
+    animation: none;
+  }
+  .earth-float,
+  .earth-parallax,
+  .aura {
+    animation: none;
+  }
+}
+
+/* The rail through the four process steps draws itself once the row is in
+   view, so the sequence reads as a path being travelled rather than a line
+   that was always there. */
+   Driven by the scroll position rather than a class, which keeps it clear of
+   `.reveal`'s own transform — the two would otherwise fight over the same
+   property. Browsers without scroll-driven animations show the finished rail,
+   which is exactly what was there before. */
+@keyframes awj-rail {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rail-draw {
+      transform-origin: right center;
+      animation: awj-rail linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 40%;
+    }
+    [dir="ltr"] .rail-draw {
+      transform-origin: left center;
+    }
+  }
+}
+
 /* Marquee for the client strip */
 @keyframes awj-marquee {
   from {

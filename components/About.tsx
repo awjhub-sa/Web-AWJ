@@ -1,5 +1,6 @@
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
+import Spotlight from "./Spotlight";
 import { getContent, type Locale } from "@/lib/content";
 
 export default function About({ locale }: { locale: Locale }) {
@@ -17,7 +18,10 @@ export default function About({ locale }: { locale: Locale }) {
         <ul className="mt-14 grid gap-5 md:grid-cols-3">
           {t.cards.map((card, i) => (
             <Reveal as="li" key={card.title} delay={i * 100}>
-              <article className="group flex h-full flex-col rounded-card border border-line bg-shell p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brand-600/40 hover:bg-white hover:shadow-[0_18px_45px_-22px_rgba(58,114,214,0.42)]">
+              <Spotlight
+                as="article"
+                className="group flex h-full flex-col overflow-hidden rounded-card border border-line bg-shell p-8 transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-600/40 hover:bg-white hover:shadow-[0_22px_55px_-24px_rgba(58,114,214,0.5)]"
+              >
                 <span className="text-sm font-bold text-brand-700">
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -32,7 +36,7 @@ export default function About({ locale }: { locale: Locale }) {
                     {card.extra}
                   </p>
                 ) : null}
-              </article>
+              </Spotlight>
             </Reveal>
           ))}
         </ul>

@@ -54,7 +54,7 @@ export default function SectionHeading({
       </Reveal>
       <Reveal delay={110}>
         <div
-          className={`gradient-bg mt-6 h-[3px] w-[88px] rounded-full ${
+          className={`rule-draw gradient-bg mt-6 h-[3px] w-[88px] rounded-full ${
             centered ? "mx-auto" : ""
           }`}
         />

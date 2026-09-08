@@ -35,7 +35,7 @@ export default function Process({ locale }: { locale: Locale }) {
               one continuous path through the four steps. */}
           <span
             aria-hidden
-            className="absolute inset-x-0 top-7 hidden h-[2px] bg-gradient-to-l from-transparent via-brand-600/45 to-transparent md:block"
+            className="rail-draw absolute inset-x-0 top-7 hidden h-[2px] bg-gradient-to-l from-transparent via-brand-600/55 to-transparent md:block"
           />
           {t.steps.map((step, i) => (
             <Reveal

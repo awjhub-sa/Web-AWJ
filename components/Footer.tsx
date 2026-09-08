@@ -14,10 +14,10 @@ export default function Footer({ locale }: { locale: Locale }) {
   const content = getContent(locale);
   const t = content.footer;
   return (
-    <footer className="edge-gradient relative overflow-hidden bg-navy-950 pt-16">
+    <footer className="edge-gradient dot-grid relative overflow-hidden bg-navy-950 pt-16">
       <span
         aria-hidden
-        className="pointer-events-none absolute -top-24 right-1/4 h-[320px] w-[320px] rounded-full bg-brand-600/12 blur-[130px]"
+        className="orb pointer-events-none absolute -top-24 right-1/4 h-[320px] w-[320px] rounded-full bg-brand-600/15 blur-[130px]"
       />
       <div className="container-awj relative">
         <div className="grid gap-12 pb-12 md:grid-cols-[1.3fr_1fr_1fr_1fr]">

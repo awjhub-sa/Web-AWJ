@@ -13,11 +13,11 @@ export default function Projects({ locale }: { locale: Locale }) {
   return (
     <section
       id="projects"
-      className="edge-gradient relative overflow-hidden bg-navy-800 py-24 sm:py-28"
+      className="edge-gradient dot-grid relative overflow-hidden bg-navy-800 py-24 sm:py-28"
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-40 top-1/4 h-[420px] w-[420px] rounded-full bg-brand-600/15 blur-[120px]"
+        className="orb pointer-events-none absolute -left-40 top-1/4 h-[420px] w-[420px] rounded-full bg-brand-600/20 blur-[120px]"
       />
 
       <div className="container-awj relative">
