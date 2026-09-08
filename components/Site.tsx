@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import Stats from "@/components/Stats";
 import Services from "@/components/Services";
 import Projects from "@/components/Projects";
 import WhyUs from "@/components/WhyUs";
@@ -20,6 +21,7 @@ export default function Site({ locale }: { locale: Locale }) {
       <main id="main">
         <Hero locale={locale} />
         <About locale={locale} />
+        <Stats locale={locale} />
         <Services locale={locale} />
         <Projects locale={locale} />
         <WhyUs locale={locale} />

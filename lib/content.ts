@@ -129,6 +129,23 @@ export type Content = {
     body: string;
     cards: { title: string; body: string; extra?: string }[];
   };
+  /**
+   * The proof strip. Every figure here restates something the site already
+   * commits to elsewhere — the contracted delivery window, the reply time in
+   * the FAQ, the four process steps, the ownership answer. Nothing is an
+   * estimate, so nothing here can drift out of step with the rest of the page.
+   */
+  stats: {
+    aria: string;
+    items: {
+      /** Counts up from zero. Omit for a value that is not a single figure. */
+      count?: number;
+      suffix?: string;
+      /** Shown as-is when there is no `count`, e.g. a range. */
+      display?: string;
+      label: string;
+    }[];
+  };
   services: { eyebrow: string; title: string; body: string; items: Service[] };
   projects: {
     eyebrow: string;
@@ -277,6 +294,22 @@ const ar: Content = {
       {
         title: "أهدافنا",
         body: "نضع بين يدي كل منشأة أدوات تجعل عملياتها أوضح وقرارها مسنودًا ببيانات.",
+      },
+    ],
+  },
+  stats: {
+    aria: "أرقام تلخّص طريقة عملنا",
+    items: [
+      {
+        display: `${delivery.min}–${delivery.max}`,
+        label: "أسابيع من اعتماد النطاق حتى الإطلاق، مكتوبة في العقد",
+      },
+      { count: 1, label: "يوم عمل واحد نردّ فيه على طلبك" },
+      { count: 4, label: "مراحل من أول جلسة إلى نظام يعمل" },
+      {
+        count: 100,
+        suffix: "٪",
+        label: "من الكود والبيانات ملك للعميل عند التسليم",
       },
     ],
   },
@@ -561,6 +594,22 @@ const en: Content = {
       {
         title: "Our goals",
         body: "To put in every organisation's hands the tools that make its operations clearer and its decisions backed by data.",
+      },
+    ],
+  },
+  stats: {
+    aria: "The numbers behind how we work",
+    items: [
+      {
+        display: `${delivery.min}–${delivery.max}`,
+        label: "weeks from scope sign-off to launch, written into the contract",
+      },
+      { count: 1, label: "business day to come back to your request" },
+      { count: 4, label: "stages from the first session to a working system" },
+      {
+        count: 100,
+        suffix: "%",
+        label: "of the code and the data owned by the client at handover",
       },
     ],
   },
