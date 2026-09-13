@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Globe from "./Globe";
 import Reveal from "./Reveal";
 import { getContent, site, type Locale } from "@/lib/content";
 import { IconArrow } from "./Icons";
@@ -110,24 +111,20 @@ export default function Hero({ locale }: { locale: Locale }) {
               aria-hidden
               className="absolute inset-0 -z-10 rounded-[36px] bg-gradient-to-br from-brand-600/25 to-brand-500/5 blur-2xl"
             />
-            <div className="animated-border rounded-[32px] border border-white/12 bg-navy-950/45 p-10 backdrop-blur-md">
-              {/* The stacked lockup, which is the identity at its fullest —
-                  the wide one already sits in the header two rows above. */}
-              <Image
-                src={site.logo.stackedLight.src}
-                alt={`${site.nameAr} — ${site.nameEn}`}
-                width={site.logo.stackedLight.width}
-                height={site.logo.stackedLight.height}
-                priority
-                unoptimized
-                className="mx-auto h-auto w-full max-w-[230px]"
-              />
-              <div className="rule-gradient my-8" />
+            <div className="animated-border rounded-[32px] border border-white/12 bg-navy-950/55 p-6 backdrop-blur-md sm:p-8">
+              {/* The globe, not the wordmark: the wide lockup already sits in
+                  the header a few rows above, and a second copy of it here was
+                  the same brand said twice in one screen. */}
+              <Globe label={t.globeAlt} />
+              <div className="rule-gradient mt-2 mb-6" />
               <p
                 dir="ltr"
                 className="text-center text-sm tracking-wide text-white/60"
               >
                 {site.taglineEn}
+              </p>
+              <p className="mt-2 text-center text-[12px] text-white/35">
+                {t.globeHint}
               </p>
             </div>
           </div>
