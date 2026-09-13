@@ -1,6 +1,4 @@
 import Image from "next/image";
-import Globe from "./Globe";
-import Reveal from "./Reveal";
 import { getContent, site, type Locale } from "@/lib/content";
 import { IconArrow } from "./Icons";
 
@@ -62,90 +60,95 @@ export default function Hero({ locale }: { locale: Locale }) {
 
       <div className="container-awj relative grid flex-1 items-center gap-14 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
         <div>
-          <Reveal>
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand-600/30 bg-brand-600/10 px-4 py-1.5 text-[13px] font-medium text-brand-400 backdrop-blur-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
-              {t.badge}
-            </span>
-          </Reveal>
+          <span
+            className="enter inline-flex items-center gap-2 rounded-full border border-brand-600/30 bg-brand-600/10 px-4 py-1.5 text-[13px] font-medium text-brand-400 backdrop-blur-sm"
+            style={{ animationDelay: "1.1s" }}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
+            {t.badge}
+          </span>
 
-          <Reveal delay={80}>
-            {/* Stays a clear step above the section headings at every width:
-                40/32 on phones, 50/44 on tablets, 58/52 on desktop. */}
-            <h1 className="mt-6 text-[40px] font-bold leading-[1.22] text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)] sm:text-[50px] lg:text-[58px] lg:leading-[1.18]">
-              {t.titleTop}
-              <br />
-              {t.titleBottomLead}{" "}
-              <span className="gradient-text">{t.titleBottomHighlight}</span>
-            </h1>
-          </Reveal>
+          {/* Stays a clear step above the section headings at every width:
+              40/32 on phones, 50/44 on tablets, 58/52 on desktop. */}
+          <h1
+            className="enter mt-6 text-[40px] font-bold leading-[1.22] text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)] sm:text-[50px] lg:text-[58px] lg:leading-[1.18]"
+            style={{ animationDelay: "1.25s" }}
+          >
+            {t.titleTop}
+            <br />
+            {t.titleBottomLead}{" "}
+            <span className="gradient-text">{t.titleBottomHighlight}</span>
+          </h1>
 
-          <Reveal delay={160}>
-            <p className="mt-6 max-w-xl text-lg leading-[1.9] text-white/70 drop-shadow-[0_1px_10px_rgba(0,0,0,0.6)]">
-              {t.lead}
-            </p>
-          </Reveal>
+          <p
+            className="enter mt-6 max-w-xl text-lg leading-[1.9] text-white/70 drop-shadow-[0_1px_10px_rgba(0,0,0,0.6)]"
+            style={{ animationDelay: "1.4s" }}
+          >
+            {t.lead}
+          </p>
 
-          <Reveal delay={240}>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <a
-                href="#contact"
-                className="group inline-flex items-center gap-2 rounded-full gradient-bg px-7 py-3.5 font-semibold text-white transition-transform hover:scale-[1.03] active:scale-95"
-              >
-                {t.ctaPrimary}
-                <IconArrow className="h-5 w-5 transition-transform group-hover:-translate-x-1 ltr:group-hover:translate-x-1" />
-              </a>
-              <a
-                href="#projects"
-                className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 py-3.5 font-semibold text-white backdrop-blur-sm transition-colors hover:border-white/50 hover:bg-white/10"
-              >
-                {t.ctaSecondary}
-              </a>
-            </div>
-          </Reveal>
+          <div
+            className="enter mt-9 flex flex-wrap items-center gap-3"
+            style={{ animationDelay: "1.55s" }}
+          >
+            <a
+              href="#contact"
+              className="group inline-flex items-center gap-2 rounded-full gradient-bg px-7 py-3.5 font-semibold text-white transition-transform hover:scale-[1.03] active:scale-95"
+            >
+              {t.ctaPrimary}
+              <IconArrow className="h-5 w-5 transition-transform group-hover:-translate-x-1 ltr:group-hover:translate-x-1" />
+            </a>
+            <a
+              href="#projects"
+              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 py-3.5 font-semibold text-white backdrop-blur-sm transition-colors hover:border-white/50 hover:bg-white/10"
+            >
+              {t.ctaSecondary}
+            </a>
+          </div>
         </div>
 
-        <Reveal delay={200} className="relative">
+        <div className="enter relative" style={{ animationDelay: "1.35s" }}>
           <div className="relative mx-auto max-w-md">
             <div
               aria-hidden
               className="absolute inset-0 -z-10 rounded-[36px] bg-gradient-to-br from-brand-600/25 to-brand-500/5 blur-2xl"
             />
-            <div className="animated-border rounded-[32px] border border-white/12 bg-navy-950/55 p-6 backdrop-blur-md sm:p-8">
-              {/* The globe, not the wordmark: the wide lockup already sits in
-                  the header a few rows above, and a second copy of it here was
-                  the same brand said twice in one screen. */}
-              <Globe label={t.globeAlt} />
-              <div className="rule-gradient mt-2 mb-6" />
+            <div className="animated-border rounded-[32px] border border-white/12 bg-navy-950/45 p-10 backdrop-blur-md">
+              <Image
+                src={site.logo.stackedLight.src}
+                alt={`${site.nameAr} — ${site.nameEn}`}
+                width={site.logo.stackedLight.width}
+                height={site.logo.stackedLight.height}
+                priority
+                unoptimized
+                className="mx-auto h-auto w-full max-w-[230px]"
+              />
+              <div className="rule-gradient my-8" />
               <p
                 dir="ltr"
                 className="text-center text-sm tracking-wide text-white/60"
               >
                 {site.taglineEn}
               </p>
-              <p className="mt-2 text-center text-[12px] text-white/35">
-                {t.globeHint}
-              </p>
             </div>
           </div>
-        </Reveal>
+        </div>
       </div>
 
       {/* The three service lines, stated plainly */}
       <div className="dot-grid relative overflow-hidden border-t border-brand-600/25 bg-navy-950/80 backdrop-blur-md">
         <ul className="container-awj grid gap-y-6 py-8 sm:grid-cols-3">
           {content.pillars.map((pillar, i) => (
-            <Reveal
-              as="li"
+            <li
               key={pillar}
-              delay={i * 90}
-              className="flex items-center justify-center gap-3 text-center"
+              className="enter flex items-center justify-center gap-3 text-center"
+              style={{ animationDelay: `${1.8 + i * 0.08}s` }}
             >
               <span className="h-1.5 w-1.5 shrink-0 rounded-full gradient-bg" />
               <span className="text-[15px] font-medium text-white/75">
                 {pillar}
               </span>
-            </Reveal>
+            </li>
           ))}
         </ul>
       </div>

@@ -32,14 +32,33 @@
   --dur-quick: 0.35s;
   --dur-base: 0.5s;
   --dur-slow: 0.8s;
-  --dur-arrival: 2.6s;
+  /* The earth's push-in. Long enough to read as a camera arriving,
+     short enough that the copy behind it is not kept waiting. */
+  --dur-arrival: 1.9s;
 }
 
 /* ── 2. Arrival ────────────────────────────────────────────────
-   The earth is the first thing anyone sees. It used to be simply
-   present; now it settles into place the way a camera arrives.
-   Three nested layers because each owns one transform: the push-in
-   plays once, the drift never stops, the parallax follows scroll. */
+   The hero is choreographed, not revealed. It is always in view on
+   load, so nothing needs to observe it — and driving it from CSS
+   alone means the copy is never held hostage to how fast the
+   JavaScript arrives.
+
+   The order is the point: the earth lands first, on its own, and
+   the copy follows it in one line at a time. The delays below are
+   the whole score, so read them together:
+
+     0.00s  earth begins its push-in
+     1.10s  the eyebrow badge
+     1.25s  the headline
+     1.35s  the logo card, beside the headline
+     1.40s  the lead paragraph
+     1.55s  the two buttons
+     1.80s  the service strip, staggered
+     1.90s  earth settles
+
+   The copy starts while the earth is still settling on purpose —
+   waiting for it to finish would leave the screen dead for almost
+   two seconds, which reads as a page that failed to load. */
 @keyframes awj-earth-in {
   from {
     opacity: 0;
@@ -52,6 +71,22 @@
 }
 .earth-in {
   animation: awj-earth-in var(--dur-arrival) var(--ease-settle) both;
+}
+
+/* Each hero element carries its own `animation-delay`, set inline in
+   Hero.tsx so the running order is legible in one place there too. */
+@keyframes awj-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.enter {
+  animation: awj-enter 0.85s var(--ease-settle) both;
 }
 
 @keyframes awj-earth-float {
@@ -340,6 +375,7 @@
     transition: none;
   }
 
+  .enter,
   .earth-in,
   .earth-float,
   .earth-parallax,

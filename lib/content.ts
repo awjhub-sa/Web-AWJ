@@ -127,9 +127,6 @@ export type Content = {
     lead: string;
     ctaPrimary: string;
     ctaSecondary: string;
-    /** Alt text for the interactive globe, and the line that sits under it. */
-    globeAlt: string;
-    globeHint: string;
   };
   about: {
     eyebrow: string;
@@ -307,8 +304,6 @@ const ar: Content = {
     lead: "نحوّل العمليات المعقّدة إلى أنظمة واضحة قابلة للقياس والمساءلة. نصمّم الحل الرقمي، ونشغّله، ونبقى معك بعد التسليم.",
     ctaPrimary: "ابدأ مشروعك",
     ctaSecondary: "شاهد مشاريعنا",
-    globeAlt: "كرة أرضية تفاعلية، عليها علامتان عند الرياض ومكة المكرمة",
-    globeHint: "اسحب الكرة لتديرها",
   },
   about: {
     eyebrow: "من نحن",
@@ -769,8 +764,6 @@ const en: Content = {
     lead: "We turn complex operations into clear systems you can measure and hold to account. We design the digital solution, run it, and stay with you after delivery.",
     ctaPrimary: "Start your project",
     ctaSecondary: "See our work",
-    globeAlt: "An interactive globe marked at Riyadh and Makkah",
-    globeHint: "Drag the globe to spin it",
   },
   about: {
     eyebrow: "About us",
